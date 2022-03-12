@@ -43,7 +43,7 @@ AForTheKingCharacter::AForTheKingCharacter()
 
 
 	collision = CreateDefaultSubobject<USphereComponent>(TEXT("collision"));
-	collision->SetWorldLocation(GetActorLocation());
+	collision->SetupAttachment(RootComponent);
 	collision->SetGenerateOverlapEvents(true);
 	collision->InitSphereRadius(200.0f);
 
@@ -54,6 +54,7 @@ void AForTheKingCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	collision->OnComponentBeginOverlap.AddDynamic(this, &AForTheKingCharacter::OnOverlapBegin);
+	collision->OnComponentEndOverlap.AddDynamic(this, &AForTheKingCharacter::OnOverlapEnd);
 }
 
 void AForTheKingCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -107,15 +108,20 @@ void AForTheKingCharacter::MoveRight(float Value)
 
 void AForTheKingCharacter::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("Overlap!"));
-	OtherActor->Destroy();
-
-	/*
 	if (!OtherActor->Tags.Contains(TEXT("Obstacle")))
 	{
 		return;
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("Join!"));
-	*/
+}
+
+void AForTheKingCharacter::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (!OtherActor->Tags.Contains(TEXT("Obstacle")))
+	{
+		return;
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("End!"));
 }
