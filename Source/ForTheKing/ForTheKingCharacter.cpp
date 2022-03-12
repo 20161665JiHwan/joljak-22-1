@@ -107,7 +107,7 @@ void AForTheKingCharacter::MoveRight(float Value)
 
 void AForTheKingCharacter::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("overlap!"));
+	UE_LOG(LogTemp, Log, TEXT("Overlap!"));
 	OtherActor->Destroy();
 
 	/*
