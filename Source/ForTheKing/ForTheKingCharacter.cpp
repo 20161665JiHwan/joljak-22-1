@@ -8,6 +8,7 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/Character.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "PlayerCharacterController.h"
 
 AForTheKingCharacter::AForTheKingCharacter()
 {
@@ -112,6 +113,8 @@ void AForTheKingCharacter::OnOverlapBegin(class UPrimitiveComponent* OverlappedC
 	{
 		return;
 	}
+
+	GetController<APlayerCharacterController>()->PopupWidget();
 
 	UE_LOG(LogTemp, Log, TEXT("Join!"));
 }
