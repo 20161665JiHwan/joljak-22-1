@@ -126,5 +126,7 @@ void AForTheKingCharacter::OnOverlapEnd(class UPrimitiveComponent* OverlappedCom
 		return;
 	}
 
+	GetController<APlayerCharacterController>()->PushWidget();
+
 	UE_LOG(LogTemp, Log, TEXT("End!"));
 }

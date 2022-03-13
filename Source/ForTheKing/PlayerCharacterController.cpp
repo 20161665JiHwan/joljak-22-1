@@ -23,6 +23,6 @@ void APlayerCharacterController::PushWidget()
 {
 	if (Widget_Main != nullptr)
 	{
-		Widget_Main->AddToViewport();
+		Widget_Main->RemoveFromViewport();
 	}
 }
