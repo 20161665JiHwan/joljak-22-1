@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "CharacterStatus.h"
 #include "ForTheKingCharacter.generated.h"
 
 UCLASS(config = Game)
@@ -40,27 +39,13 @@ protected:
 
 	void Interaction();
 
-	// 스탯
-private:
-	UPROPERTY(EditAnywhere, Category = Player, meta = (AllowPrivateAccess = "true"))
-		struct FCharacterStatus status;
-	UPROPERTY(EditAnywhere, Category = Player, meta = (AllowPrivateAccess = "true"))
-		int CurHealth;
-	UPROPERTY(EditAnywhere, Category = Player, meta = (AllowPrivateAccess = "true"))
-		int MaxHealth;
-	UPROPERTY(EditAnywhere, Category = Player, meta = (AllowPrivateAccess = "true"))
-		int CurExp;
-	UPROPERTY(EditAnywhere, Category = Player, meta = (AllowPrivateAccess = "true"))
-		int MaxExp;
-	UPROPERTY(EditAnywhere, Category = Player, meta = (AllowPrivateAccess = "true"))
-		int SkillPoint;
-
 	// 상호작용
 private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* collision;
 
-	bool canInteract = false;
+	bool canInteraction = false;
 
 public:
+	void SetCanInteraction(bool canInter);
 };

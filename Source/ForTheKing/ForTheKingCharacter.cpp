@@ -1,8 +1,5 @@
 #include "ForTheKingCharacter.h"
 
-#include "GameFramework/Character.h"
-#include "GameFramework/Controller.h"
-
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -33,13 +30,6 @@ AForTheKingCharacter::AForTheKingCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
-
-
-	MaxHealth = 100;
-	CurHealth = 100;
-	status.Tenacity = 8;
-	status.Skill = 7;
-	status.Speed = 7;
 }
 
 void AForTheKingCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -89,10 +79,15 @@ void AForTheKingCharacter::MoveRight(float Value)
 
 void AForTheKingCharacter::Interaction()
 {
-	if (!canInteract)
+	if (!canInteraction)
 	{
 		return;
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("Interaction!"));
+}
+
+void AForTheKingCharacter::SetCanInteraction(bool canInter)
+{
+	canInteraction = canInter;
 }
