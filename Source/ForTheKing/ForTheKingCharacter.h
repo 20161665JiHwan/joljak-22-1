@@ -13,9 +13,6 @@ class AForTheKingCharacter : public ACharacter
 public:
 	AForTheKingCharacter();
 	
-protected:
-	virtual void BeginPlay() override;
-
 	// Ä«¸Þ¶ó
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -40,7 +37,8 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void TurnAtRate(float Rate);
-	void LookUpAtRate(float Rate);
+
+	void Interaction();
 
 	// ½ºÅÈ
 private:
@@ -61,9 +59,8 @@ private:
 private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* collision;
+
+	bool canInteract = false;
+
 public:
-	UFUNCTION()
-	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UFUNCTION()
-	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
