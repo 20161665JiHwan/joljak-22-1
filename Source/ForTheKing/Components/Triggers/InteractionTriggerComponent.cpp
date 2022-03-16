@@ -1,7 +1,9 @@
 #include "InteractionTriggerComponent.h"
+
 #include "Components/ShapeComponent.h"
-#include "ForTheKingCharacter.h"
-#include "PlayerCharacterController.h"
+
+#include "ForTheKing/ForTheKingCharacter.h"
+#include "ForTheKing/Controllers/PlayerCharacterController.h"
 
 void UInteractionTriggerComponent::BeginPlay()
 {

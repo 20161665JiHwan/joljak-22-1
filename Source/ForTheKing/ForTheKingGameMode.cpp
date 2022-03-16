@@ -1,6 +1,8 @@
 #include "ForTheKingGameMode.h"
-#include "ForTheKingCharacter.h"
+
 #include "UObject/ConstructorHelpers.h"
+
+#include "ForTheKing/ForTheKingCharacter.h"
 
 AForTheKingGameMode::AForTheKingGameMode()
 {
