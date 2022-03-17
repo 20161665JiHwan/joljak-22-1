@@ -11,5 +11,9 @@ class FORTHEKING_API UTriggerComponent : public UActorComponent
 	GENERATED_BODY()
 
 private:
-	bool trigger = false;
+	bool isOn = false;
+
+protected:
+	bool GetTriggerOn();
+	void SetTrigger(bool isOn);
 };

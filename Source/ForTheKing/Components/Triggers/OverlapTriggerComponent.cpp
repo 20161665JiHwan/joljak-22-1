@@ -18,9 +18,13 @@ void UOverlapTriggerComponent::BeginPlay()
 void UOverlapTriggerComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Log, TEXT("OverlapBegin!"));
+
+	SetTrigger(true);
 }
 
 void UOverlapTriggerComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	UE_LOG(LogTemp, Log, TEXT("OverlapEnd!"));
+
+	SetTrigger(false);
 }

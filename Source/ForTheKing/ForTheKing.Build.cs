@@ -7,5 +7,7 @@ public class ForTheKing : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "UMG" });
+
+		PrivateIncludePaths.Add("ForTheKing");
 	}
 }

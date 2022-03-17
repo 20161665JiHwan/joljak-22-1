@@ -1,4 +1,5 @@
 #include "InteractionTriggerComponent.h"
+#include "ForTheKing/ForTheKing.h"
 
 #include "Components/ShapeComponent.h"
 
@@ -20,7 +21,7 @@ void UInteractionTriggerComponent::BeginPlay()
 
 void UInteractionTriggerComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("InteractionBegin!"));
+	UE_LOG(TriggerEvent, Log, TEXT("InteractionBegin!"));
 
 	AForTheKingCharacter* player = Cast<AForTheKingCharacter>(OtherActor);
 	if (player != nullptr)

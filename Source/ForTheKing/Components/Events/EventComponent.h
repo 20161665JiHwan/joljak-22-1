@@ -5,9 +5,12 @@
 #include "EventComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Event), meta=(BlueprintSpawnableComponent) )
+UCLASS()
 class FORTHEKING_API UEventComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+public:
+	void ActiveEvent() {}
+	void StopEvent() {}
 };
