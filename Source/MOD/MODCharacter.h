@@ -30,12 +30,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
+	UPROPERTY(EditAnywhere, Category = "Character Movement: Walking")
+		float SprintRate;
+
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void TurnAtRate(float Rate);
+	
+	void Sprint();
+	void StopSprinting();
 
 	void Interaction();
 
