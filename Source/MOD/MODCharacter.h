@@ -48,10 +48,9 @@ protected:
 	// 상호작용
 private:
 	UPROPERTY(VisibleAnywhere)
-		class USphereComponent* collision;
-
-	bool canInteraction = false;
+	TArray<class UInteractionTriggerComponent*> interactions;
 
 public:
-	void SetCanInteraction(bool canInter);
+	void AddInteraction(UInteractionTriggerComponent* trigger);
+	void RemoveInteraction(UInteractionTriggerComponent* trigger);
 };

@@ -21,24 +21,34 @@ void UInteractionTriggerComponent::BeginPlay()
 
 void UInteractionTriggerComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(TriggerEvent, Log, TEXT("InteractionBegin!"));
+	UE_LOG(TriggerEvent, Log, TEXT("Interaction Begin!"));
 
 	AMODCharacter* player = Cast<AMODCharacter>(OtherActor);
 	if (player != nullptr)
 	{
 		player->GetController<APlayerCharacterController>()->PopupWidget();
-		player->SetCanInteraction(true);
+		player->AddInteraction(this);
 	}
 }
 
 void UInteractionTriggerComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Log, TEXT("InteractionEnd!"));
+	UE_LOG(TriggerEvent, Log, TEXT("Interaction End!"));
 
 	AMODCharacter* player = Cast<AMODCharacter>(OtherActor);
 	if (player != nullptr)
 	{
 		player->GetController<APlayerCharacterController>()->PushWidget();
-		player->SetCanInteraction(false);
+		player->RemoveInteraction(this);
 	}
+}
+
+void UInteractionTriggerComponent::StartInteraction()
+{
+	SetTrigger(true);
+}
+
+void UInteractionTriggerComponent::EndInteraction()
+{
+	SetTrigger(false);
 }

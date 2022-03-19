@@ -16,7 +16,8 @@ void UTriggerComponent::SetTrigger(bool setOn)
 	AActor* owner = GetOwner();
 	if (isOn)
 	{
-		TArray<UActorComponent*> triggers = owner->GetComponentsByClass(UTriggerComponent::StaticClass());
+		TArray<UActorComponent*> triggers;
+		owner->GetComponents(UTriggerComponent::StaticClass(), triggers);
 		for (UActorComponent* trigger : triggers)
 		{
 			UTriggerComponent* temp = Cast<UTriggerComponent>(trigger);
@@ -27,22 +28,24 @@ void UTriggerComponent::SetTrigger(bool setOn)
 			}
 		}
 
-		TArray<UActorComponent*> events = owner->GetComponentsByClass(UEventComponent::StaticClass());
+		TArray<UActorComponent*> events;
+		owner->GetComponents(UEventComponent::StaticClass(), events);
 		for (UActorComponent* event : events)
 		{
 			UEventComponent* temp = Cast<UEventComponent>(event);
-			UE_LOG(TriggerEvent, Log, TEXT("%s Active!"), *(temp->GetFName().ToString()));
-			temp->ActiveEvent();
+			UE_LOG(TriggerEvent, Log, TEXT("%s Start!"), *(temp->GetFName().ToString()));
+			temp->StartEvent();
 		}
 	}
 	else
 	{
-		TArray<UActorComponent*> events = owner->GetComponentsByClass(UEventComponent::StaticClass());
+		TArray<UActorComponent*> events;
+		owner->GetComponents(UEventComponent::StaticClass(), events);
 		for (UActorComponent* event : events)
 		{
 			UEventComponent* temp = Cast<UEventComponent>(event);
-			UE_LOG(TriggerEvent, Log, TEXT("%s Stop!"), *(temp->GetFName().ToString()));
-			temp->StopEvent();
+			UE_LOG(TriggerEvent, Log, TEXT("%s End!"), *(temp->GetFName().ToString()));
+			temp->EndEvent();
 		}
 	}
 }

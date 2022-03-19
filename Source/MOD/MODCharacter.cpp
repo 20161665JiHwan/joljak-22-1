@@ -1,10 +1,13 @@
 #include "MODCharacter.h"
+#include "MOD/MansionOfDarkness.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+
+#include "MOD/Components/Triggers/InteractionTriggerComponent.h"
 
 AMODCharacter::AMODCharacter()
 {
@@ -90,15 +93,23 @@ void AMODCharacter::StopSprinting()
 
 void AMODCharacter::Interaction()
 {
-	if (!canInteraction)
+	if (interactions.Num() == 0)
 	{
 		return;
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("Interaction!"));
+	// 오브젝트 판별 알고리즘 추가 해야함.
+	// 판별해서 현재 상호작용 중인 오브젝트 따로 저장.
+
+	interactions[0]->StartInteraction();
 }
 
-void AMODCharacter::SetCanInteraction(bool canInter)
+void AMODCharacter::AddInteraction(class UInteractionTriggerComponent* trigger)
 {
-	canInteraction = canInter;
+	interactions.Add(trigger);
+}
+
+void AMODCharacter::RemoveInteraction(class UInteractionTriggerComponent* trigger)
+{
+	interactions.Remove(trigger);
 }

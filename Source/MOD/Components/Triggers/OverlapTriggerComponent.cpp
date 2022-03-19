@@ -1,4 +1,5 @@
 #include "OverlapTriggerComponent.h"
+#include "MOD/MansionOfDarkness.h"
 
 #include "Components/ShapeComponent.h"
 
@@ -17,14 +18,14 @@ void UOverlapTriggerComponent::BeginPlay()
 
 void UOverlapTriggerComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("OverlapBegin!"));
+	UE_LOG(TriggerEvent, Log, TEXT("Overlap Begin!"));
 
 	SetTrigger(true);
 }
 
 void UOverlapTriggerComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Log, TEXT("OverlapEnd!"));
+	UE_LOG(TriggerEvent, Log, TEXT("Overlap End!"));
 
 	SetTrigger(false);
 }

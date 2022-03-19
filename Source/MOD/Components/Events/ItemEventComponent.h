@@ -10,4 +10,7 @@ class MANSIONOFDARKNESS_API UItemEventComponent : public UEventComponent
 {
 	GENERATED_BODY()
 
+public:
+	virtual void StartEvent() override;
+	virtual void EndEvent() override;
 };

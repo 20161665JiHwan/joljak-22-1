@@ -11,6 +11,6 @@ class MANSIONOFDARKNESS_API UEventComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	void ActiveEvent() {}
-	void StopEvent() {}
+	virtual void StartEvent() {};
+	virtual void EndEvent() {};
 };
