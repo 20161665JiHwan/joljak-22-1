@@ -5,7 +5,7 @@
 #include "InteractionTriggerComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Trigger), meta=(BlueprintSpawnableComponent) )
+UCLASS( Blueprintable, ClassGroup=(Trigger) )
 class MANSIONOFDARKNESS_API UInteractionTriggerComponent : public UTriggerComponent
 {
 	GENERATED_BODY()
@@ -15,6 +15,17 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category = Trigger, meta = (AllowPrivateAccess = "true"))
+		class UMaterialInterface* interactMaterial;
+
+	TArray<class UStaticMeshComponent*> highlights;
+
+	void SetHighlightVisibility(bool visibility);
+
+public:
+	virtual void OnComponentDestroyed(bool bDestroyingHierarchy) override;
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Trigger, meta = (AllowPrivateAccess = "true"))
 		class UMaterialInterface* interactMaterial;
 
 	TArray<class UStaticMeshComponent*> highlights;

@@ -10,14 +10,14 @@ void USingleTimeEventComponent::StartEvent()
 	owner->GetComponents(UTriggerComponent::StaticClass(), triggers);
 	for (UActorComponent* trigger : triggers)
 	{
-		trigger->DestroyComponent();
+		trigger->DestroyComponent(true);
 	}
 
 	TArray<UActorComponent*> events;
 	owner->GetComponents(UEventComponent::StaticClass(), events);
 	for (UActorComponent* event : events)
 	{
-		event->DestroyComponent();
+		event->DestroyComponent(true);
 	}
 }
 
