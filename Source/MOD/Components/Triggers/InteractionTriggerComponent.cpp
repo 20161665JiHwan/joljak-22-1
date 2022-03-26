@@ -46,7 +46,7 @@ void UInteractionTriggerComponent::OnComponentDestroyed(bool bDestroyingHierachy
 {
 	Super::OnComponentDestroyed(bDestroyingHierachy);
 
-	UE_LOG(TriggerEvent, Log, TEXT("destroy Begin!"));
+	UE_LOG(TriggerEvent, Log, TEXT("Destroy Effect Begin!"));
 
 	for (UStaticMeshComponent* comp : highlights)
 	{
