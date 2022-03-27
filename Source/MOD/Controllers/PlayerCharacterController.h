@@ -16,9 +16,16 @@ public:
 	void PopupWidget();
 	void PushWidget();
 
+	void OnOffInventory();
 private:
 	UPROPERTY(EditAnywhere, Category = Widget, meta = (AllowPrivateAcess = true))
 		TSubclassOf<class UUserWidget> Widget_MainClass;
 	class UUserWidget* Widget_Main;
 
+	UPROPERTY(EditAnywhere, Category = Inventory, meta = (AllowPrivateAcess = true))
+		TSubclassOf<class UUserWidget> Inventory_MainClass;
+	class UUserWidget* Inventory_Main;
+
+	UPROPERTY()
+		bool InventoryA = false;
 };

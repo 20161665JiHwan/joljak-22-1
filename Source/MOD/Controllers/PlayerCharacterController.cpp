@@ -26,3 +26,22 @@ void APlayerCharacterController::PushWidget()
 		Widget_Main->RemoveFromViewport();
 	}
 }
+
+void APlayerCharacterController::OnOffInventory()
+{
+	if (Inventory_MainClass != nullptr)
+	{
+		if (InventoryA == false)
+		{
+			Inventory_Main = CreateWidget<UUserWidget>(this, Inventory_MainClass);
+			Inventory_Main->AddToViewport();
+			InventoryA = true;
+		}
+		else if (InventoryA == true)
+		{
+			Inventory_Main->RemoveFromViewport();
+			Inventory_Main->RemoveFromParent();
+			InventoryA = false;
+		}
+	}
+}
