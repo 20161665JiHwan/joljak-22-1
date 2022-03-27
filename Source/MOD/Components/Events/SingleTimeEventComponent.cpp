@@ -1,4 +1,5 @@
 #include "SingleTimeEventComponent.h"
+#include "MOD/MansionOfDarkness.h"
 
 #include "MOD/Components/Triggers/TriggerComponent.h"
 
@@ -6,19 +7,23 @@ void USingleTimeEventComponent::StartEvent()
 {
 	AActor* owner = GetOwner();
 
+	UE_LOG(TriggerEvent, Log, TEXT("SingleTimeEvent Begin!"));
+
 	TArray<UActorComponent*> triggers;
 	owner->GetComponents(UTriggerComponent::StaticClass(), triggers);
-	for (UActorComponent* trigger : triggers)
+	for (UActorComponent* tmpTrigger : triggers)
 	{
-		trigger->DestroyComponent(true);
+		tmpTrigger->DestroyComponent(true);
 	}
 
 	TArray<UActorComponent*> events;
 	owner->GetComponents(UEventComponent::StaticClass(), events);
-	for (UActorComponent* event : events)
+	for (UActorComponent* tmpEvent : events)
 	{
-		event->DestroyComponent(true);
+		tmpEvent->DestroyComponent(true);
 	}
+
+	UE_LOG(TriggerEvent, Log, TEXT("SingleTimeEvent End!"));
 }
 
 void USingleTimeEventComponent::EndEvent()

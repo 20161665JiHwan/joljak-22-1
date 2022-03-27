@@ -98,6 +98,8 @@ void AMODCharacter::Interaction()
 		return;
 	}
 
+	UE_LOG(TriggerEvent, Log, TEXT("Interaction Action!"));
+
 	// 오브젝트 판별 알고리즘 추가 해야함.
 	// 판별해서 현재 상호작용 중인 오브젝트 따로 저장.
 
