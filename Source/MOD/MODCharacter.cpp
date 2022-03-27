@@ -59,8 +59,6 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::StopSprinting);
 
 	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
-
-	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::ActiveInventory);
 }
 
 void AMODCharacter::TurnAtRate(float Rate)
@@ -123,11 +121,6 @@ void AMODCharacter::AddInteraction(class UInteractionTriggerComponent* trigger)
 void AMODCharacter::RemoveInteraction(class UInteractionTriggerComponent* trigger)
 {
 	interactions.Remove(trigger);
-}
-
-void AMODCharacter::ActiveInventory()
-{
-	GetController<APlayerCharacterController>()->OnOffInventory();
 }
 
 void AMODCharacter::UseItem(class UItem* Item)

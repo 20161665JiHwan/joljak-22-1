@@ -46,7 +46,6 @@ protected:
 
 	void Interaction();
 
-	void ActiveInventory();
 	// 상호작용
 private:
 	UPROPERTY(VisibleAnywhere)
