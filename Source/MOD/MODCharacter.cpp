@@ -8,6 +8,10 @@
 #include "GameFramework/SpringArmComponent.h"
 
 #include "MOD/Components/Triggers/InteractionTriggerComponent.h"
+#include "MOD/Controllers/PlayerCharacterController.h"
+
+#include "MOD/Inventory/Item.h"
+#include "MOD/Inventory/InventoryComponent.h"
 
 AMODCharacter::AMODCharacter()
 {
@@ -34,6 +38,11 @@ AMODCharacter::AMODCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Inventory->Capacity = 20;
+
+	Health = 100.0f;
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -98,20 +107,33 @@ void AMODCharacter::Interaction()
 		return;
 	}
 
-	UE_LOG(TriggerEvent, Log, TEXT("Interaction Action!"));
-
-	// ¿ÀºêÁ§Æ® ÆÇº° ¾Ë°í¸®Áò Ãß°¡ ÇØ¾ßÇÔ.
-	// ÆÇº°ÇØ¼­ ÇöÀç »óÈ£ÀÛ¿ë ÁßÀÎ ¿ÀºêÁ§Æ® µû·Î ÀúÀå.
+	// ì˜¤ë¸Œì íŠ¸ íŒë³„ ì•Œê³ ë¦¬ì¦˜ ì¶”ê°€ í•´ì•¼í•¨.
+	// íŒë³„í•´ì„œ í˜„ìž¬ ìƒí˜¸ìž‘ìš© ì¤‘ì¸ ì˜¤ë¸Œì íŠ¸ ë”°ë¡œ ì €ìž¥.
 
 	interactions[0]->StartInteraction();
 }
 
 void AMODCharacter::AddInteraction(class UInteractionTriggerComponent* trigger)
 {
-	interactions.Add(trigger);
+	if (!interactions.Contains(trigger))
+	{
+		interactions.Add(trigger);
+	}
 }
 
 void AMODCharacter::RemoveInteraction(class UInteractionTriggerComponent* trigger)
 {
-	interactions.Remove(trigger);
+	if (interactions.Contains(trigger))
+	{
+		interactions.Remove(trigger);
+	}
+}
+
+void AMODCharacter::UseItem(class UItem* Item)
+{
+	if (Item)
+	{
+		Item->Use(this);
+		Item->OnUse(this);
+	}
 }

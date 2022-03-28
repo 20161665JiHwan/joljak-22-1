@@ -12,18 +12,19 @@ class AMODCharacter : public ACharacter
 public:
 	AMODCharacter();
 	
-	// ƒ´∏ﬁ∂Û
+	// Ïπ¥Î©îÎùº
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UInventoryComponent* Inventory;
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	// ¡∂¿€
+	// Ï°∞Ïûë
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
@@ -45,7 +46,7 @@ protected:
 
 	void Interaction();
 
-	// ªÛ»£¿€øÎ
+	// ÏÉÅÌò∏ÏûëÏö©
 private:
 	UPROPERTY(VisibleAnywhere)
 	TArray<class UInteractionTriggerComponent*> interactions;
@@ -53,4 +54,11 @@ private:
 public:
 	void AddInteraction(UInteractionTriggerComponent* trigger);
 	void RemoveInteraction(UInteractionTriggerComponent* trigger);
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Health")
+	float Health;
+
+	UFUNCTION(BlueprintCallable, Category = "Items")
+		void UseItem(class UItem* Item);
 };

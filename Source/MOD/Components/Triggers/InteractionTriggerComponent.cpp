@@ -55,7 +55,10 @@ void UInteractionTriggerComponent::OnComponentDestroyed(bool bDestroyingHierachy
 	}
 
 	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	player->RemoveInteraction(this);
+	if (player != nullptr)
+	{
+		player->RemoveInteraction(this);
+	}
 }
 
 void UInteractionTriggerComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
