@@ -115,12 +115,18 @@ void AMODCharacter::Interaction()
 
 void AMODCharacter::AddInteraction(class UInteractionTriggerComponent* trigger)
 {
-	interactions.Add(trigger);
+	if (!interactions.Contains(trigger))
+	{
+		interactions.Add(trigger);
+	}
 }
 
 void AMODCharacter::RemoveInteraction(class UInteractionTriggerComponent* trigger)
 {
-	interactions.Remove(trigger);
+	if (interactions.Contains(trigger))
+	{
+		interactions.Remove(trigger);
+	}
 }
 
 void AMODCharacter::UseItem(class UItem* Item)
