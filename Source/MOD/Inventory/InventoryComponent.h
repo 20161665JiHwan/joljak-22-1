@@ -23,15 +23,24 @@ public:
 	bool AddItem(class UItem* Item);
 	bool RemoveItem(class UItem* Item);
 
-	UPROPERTY(EditDefaultsOnly, Instanced)
-		TArray<class UItem*> KeyItems;
-	UPROPERTY(EditDefaultsOnly, Instanced)
-		TArray<class UItem*> ProvisoItems;
-	UPROPERTY(EditDefaultsOnly, Instanced)
-		TArray<class UItem*> ToolItems;
+	
+	UFUNCTION(BlueprintCallable)
+		void Equip(class UItem* Item);
+	UFUNCTION(BlueprintCallable)
+		void TakeOff(class UItem* Item);
 
-	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
-		int32 Capacity;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
+		TArray<class UItem*> KeyItems;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
+		TArray<class UItem*> ProvisoItems;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
+		TArray<class UItem*> ToolItems;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
+		class UItem* TopItems;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
+		class UItem* BottomItems;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
+		class UItem* CharmItems;
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 		FOnInventoryUpdated OnInventoryUpdated;

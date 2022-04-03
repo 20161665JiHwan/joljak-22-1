@@ -26,6 +26,13 @@ private:
 		TSubclassOf<class UUserWidget> Inventory_MainClass;
 	class UUserWidget* Inventory_Main;
 
+public:
+	UFUNCTION(BlueprintCallable)
+		void CloseWindow();
+
+	UFUNCTION(BlueprintCallable)
+		void OpenWindow();
+
 	UPROPERTY()
 		bool InventoryA = false;
 };

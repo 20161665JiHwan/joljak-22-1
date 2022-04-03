@@ -5,9 +5,9 @@
 
 UItem::UItem()
 {
-	Weight = 1.0f;
 	ItemDisplayName = FText::FromString("Item");
 	ItemTypeText = FText::FromString("Use");
+	IsFind = false;
 }
 
 void UItem::Use(class AMODCharacter* Character)

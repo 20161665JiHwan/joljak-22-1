@@ -9,6 +9,8 @@ class AMODCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+	virtual void Tick(float DeltaSeconds) override;
+
 public:
 	AMODCharacter();
 	
@@ -57,8 +59,32 @@ public:
 	void RemoveInteraction(UInteractionTriggerComponent* trigger);
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Health")
-	float Health;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int MaxHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int Tenacity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int Skill;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int Agility;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int Luck;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int StatPoint;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int CurrentEXP;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int MaxEXP;
 
 	UFUNCTION(BlueprintCallable, Category = "Items")
 		void UseItem(class UItem* Item);

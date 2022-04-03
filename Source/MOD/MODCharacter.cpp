@@ -12,6 +12,7 @@
 
 #include "MOD/Inventory/Item.h"
 #include "MOD/Inventory/InventoryComponent.h"
+#include "MOD/Inventory/CharacterLevelUp.h"
 
 AMODCharacter::AMODCharacter()
 {
@@ -40,9 +41,16 @@ AMODCharacter::AMODCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
-	Inventory->Capacity = 20;
 
-	Health = 100.0f;
+	Health = 100;
+	MaxHealth = 100;
+	Tenacity = 0;
+	Skill = 0;
+	Agility = 0;
+	Luck = 0;
+	StatPoint = 10;
+	CurrentEXP = 0;
+	MaxEXP = 100;
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -61,6 +69,12 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
 
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::ActiveInventory);
+}
+
+void AMODCharacter::Tick(float DeltaSeconds)
+{
+	CharacterLevelUp* CharacterLV = Cast<CharacterLevelUp>(this);
+	CharacterLV->LevelUp();
 }
 
 void AMODCharacter::TurnAtRate(float Rate)
