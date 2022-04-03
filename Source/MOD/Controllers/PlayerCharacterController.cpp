@@ -1,4 +1,7 @@
 #include "PlayerCharacterController.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerController.h"
+#include "MOD/MODCharacter.h"
 
 #include "MOD/MODCharacter.h"
 
@@ -37,4 +40,20 @@ void APlayerCharacterController::PushTrapWidget(TSubclassOf<UUserWidget> widgetC
 	trapWidget = nullptr;
 	
 	GetPawn<AMODCharacter>()->EnableInput(this);
+}
+
+void APlayerCharacterController::CloseWindow()
+{
+	SetShowMouseCursor(false);
+	SetInputMode(FInputModeGameOnly());
+	AMODCharacter* chac = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	chac->EnableInput(this);
+}
+
+void APlayerCharacterController::OpenWindow()
+{
+	SetShowMouseCursor(true);
+	SetInputMode(FInputModeUIOnly());
+	AMODCharacter* chac = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	chac->DisableInput(this);
 }

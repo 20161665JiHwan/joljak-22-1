@@ -38,8 +38,16 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (MultiLine = true))
 		FText ItemDescription;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
+		bool IsFind;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
-		float Weight;
+		FString AbilityType;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+		FString EquipType;
+
+	
 
 	UPROPERTY()
 		class UInventoryComponent* OwningInventory;

@@ -29,4 +29,13 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Event")
 		FTrapStart StartTrapEvent;
+public:
+	UFUNCTION(BlueprintCallable)
+		void CloseWindow();
+
+	UFUNCTION(BlueprintCallable)
+		void OpenWindow();
+
+	UPROPERTY()
+		bool InventoryA = false;
 };
