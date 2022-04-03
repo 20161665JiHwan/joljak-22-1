@@ -29,42 +29,8 @@ void UTriggerComponent::SetTrigger(bool setOn)
 		owner->GetComponents(UEventComponent::StaticClass(), eventsA);
 
 		TArray<UEventComponent*>& events = reinterpret_cast<TArray<UEventComponent*>&>(eventsA);
-
-		for (UActorComponent* tmp : events)
-		{
-			UEventComponent* temp = Cast<UEventComponent>(tmp);
-			UE_LOG(TriggerEvent, Log, TEXT("%s"), *(temp->GetFName().ToString()));
-		}
-
-		UE_LOG(TriggerEvent, Log, TEXT("Sort Start!"));
-		for (UEventComponent* tmp : events)
-		{
-			UE_LOG(TriggerEvent, Log, TEXT("%s"), *(tmp->GetFName().ToString()));
-		}
 		events.Sort([](const UEventComponent& a, const UEventComponent& b) {return a.priority < b.priority; });
-		for (UEventComponent* tmp : events)
-		{
-			UE_LOG(TriggerEvent, Log, TEXT("%s"), *(tmp->GetFName().ToString()));
-		}
-		UE_LOG(TriggerEvent, Log, TEXT("Sort End!"));
-
-		/*
-		UE_LOG(TriggerEvent, Log, TEXT("Sort Start!"));
-		for (UActorComponent* event : events)
-		{
-			UEventComponent* temp = Cast<UEventComponent>(event);
-			UE_LOG(TriggerEvent, Log, TEXT("%s"), *(temp->GetFName().ToString()));
-		}
-		events.Sort();
-		UE_LOG(TriggerEvent, Log, TEXT("Sorting!"));
-		for (UActorComponent* event : events)
-		{
-			UEventComponent* temp = Cast<UEventComponent>(event);
-			UE_LOG(TriggerEvent, Log, TEXT("%s"), *(temp->GetFName().ToString()));
-		}
-		UE_LOG(TriggerEvent, Log, TEXT("Sort End!"));
-		*/
-
+		
 		for (UActorComponent* event : events)
 		{
 			UEventComponent* temp = Cast<UEventComponent>(event);

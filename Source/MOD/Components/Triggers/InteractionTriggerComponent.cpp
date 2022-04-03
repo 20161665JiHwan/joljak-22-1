@@ -49,10 +49,16 @@ void UInteractionTriggerComponent::OnComponentDestroyed(bool bDestroyingHierachy
 
 	UE_LOG(TriggerEvent, Log, TEXT("Destroy Effect Begin!"));
 
+	if (!highlights.IsValidIndex(0))
+	{
+		return;
+	}
+
 	for (UStaticMeshComponent* comp : highlights)
 	{
 		comp->DestroyComponent(true);
 	}
+	highlights.Reset();
 
 	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	if (player != nullptr)

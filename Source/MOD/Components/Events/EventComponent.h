@@ -14,7 +14,7 @@ public:
 	virtual void OnComponentDestroyed(bool bDestroyingHierarchy) override;
 
 public:
-	UPROPERTY(EditAnywhere, Category = Event)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Event)
 	int priority;
 
 public:

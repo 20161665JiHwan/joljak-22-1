@@ -1,4 +1,5 @@
 #include "TrapEventComponent.h"
+#include "MOD/MansionOfDarkness.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -7,11 +8,11 @@
 void UTrapEventComponent::StartEvent()
 {
 	APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	controller->PopTrapWidget();
+	controller->PopTrapWidget(trapWindowWidgetClass);
+	controller->StartTrapEvent.Broadcast(trapInfo);
 }
 
 void UTrapEventComponent::EndEvent()
 {
-	APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	controller->PushTrapWidget();
+
 }
