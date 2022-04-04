@@ -23,7 +23,7 @@ void CharacterLevelUp::LevelUp()
 	{
 		if (Player->CurrentEXP >= Player->MaxEXP)
 		{
-			Player->StatPoint += 1;
+			Player->StatPoint += 3;
 			Player->CurrentEXP = 0;
 		}
 	}

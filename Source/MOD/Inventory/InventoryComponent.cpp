@@ -6,6 +6,7 @@
 #include "MOD/MODCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "MOD/Inventory/EquipmentItem.h"
+#include "Math/RandomStream.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -63,48 +64,93 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 
 void UInventoryComponent::Equip(class UItem* Item)
 {
-	AMODCharacter* Character = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	UEquipmentItem* Equip = Cast<UEquipmentItem>(Item);
 
-	if (Character)
+	if (Player)
 	{
-		if (Item->EquipType.Equals(TEXT("Top")))
+		if (Equip->EquipType.Equals(TEXT("Top")))
 		{
 			AddItem(TopItems);
 		}
-		else if (Item->EquipType.Equals(TEXT("Bottom")))
+		else if (Equip->EquipType.Equals(TEXT("Bottom")))
 		{
 			AddItem(BottomItems);
 		}
-		else if (Item->EquipType.Equals(TEXT("Charm")))
+		else if (Equip->EquipType.Equals(TEXT("Charm")))
 		{
 			AddItem(CharmItems);
 		}
 
+		if (Equip->HasAgility == true)
+		{
+			Equip->ChooseStatArray.Add(TEXT("강인"));
+		}
+		if (Equip->HasSkill == true)
+		{
+			Equip->ChooseStatArray.Add(TEXT("재주"));
+		}
+		if (Equip->HasTenacity == true)
+		{
+			Equip->ChooseStatArray.Add(TEXT("민첩"));
+		}
+		
+		FRandomStream stream;
+		stream.GenerateNewSeed();
+		Equip->PlusNumberOfStat = stream.FRandRange
+		(Equip->MinRandNum, Equip->MaxRandNum);
+		int CollectStat = stream.FRandRange(0, Equip->ChooseStatArray.Num() - 1);
+		UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), stream.GetCurrentSeed());
+
+		if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("강인")))
+		{
+			Player->Agility += Equip->PlusNumberOfStat;
+			Equip->CurrentNumberOfAgility = Equip->PlusNumberOfStat;
+			Equip->ItemDescription = (FText::FromString(FString::Printf(TEXT("%s + %d"),
+				*Equip->ChooseStatArray[CollectStat], Equip->PlusNumberOfStat)));
+		}
+		else if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("재주")))
+		{
+			Player->Skill += Equip->PlusNumberOfStat;
+			Equip->CurrentNumberOfSkill = Equip->PlusNumberOfStat;
+			Equip->ItemDescription = (FText::FromString(FString::Printf(TEXT("%s + %d"),
+				*Equip->ChooseStatArray[CollectStat], Equip->PlusNumberOfStat)));
+		}
+		else if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("민첩")))
+		{
+			Player->Tenacity += Equip->PlusNumberOfStat;
+			Equip->CurrentNumberOfTenacity = Equip->PlusNumberOfStat;
+			Equip->ItemDescription = (FText::FromString(FString::Printf(TEXT("%s + %d"),
+				*Equip->ChooseStatArray[CollectStat], Equip->PlusNumberOfStat)));
+		}
+
+		Equip->ChooseStatArray.Empty();
+		/*
 		if (Item->AbilityType.Equals(TEXT("Agility")))
 		{
-			Character->Agility += Equip->PlusNumberOfAgility;
+			Player->Agility += Equip->PlusNumberOfAgility;
 			Equip->CurrentNumberOfAgility = Equip->PlusNumberOfAgility;
 		}
 		else if (Item->AbilityType.Equals(TEXT("Skill")))
 		{
-			Character->Skill += Equip->PlusNumberOfSkill;
+			Player->Skill += Equip->PlusNumberOfSkill;
 			Equip->CurrentNumberOfSkill = Equip->PlusNumberOfAgility;
 		}
 		else if (Item->AbilityType.Equals(TEXT("Tenacity")))
 		{
-			Character->Tenacity += Equip->PlusNumberOfTenacity;
+			Player->Tenacity += Equip->PlusNumberOfTenacity;
 			Equip->CurrentNumberOfTenacity = Equip->PlusNumberOfAgility;
 		}
+		*/
 	}
 }
 
 void UInventoryComponent::TakeOff(class UItem* Item)
 {
-	AMODCharacter* Character = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	UEquipmentItem* Equip = Cast<UEquipmentItem>(Item);
-
-	if (Character)
+	/*
+	if (Player)
 	{
 		if (Item->EquipType.Equals(TEXT("Top")))
 		{
@@ -121,16 +167,16 @@ void UInventoryComponent::TakeOff(class UItem* Item)
 
 		if (Item->AbilityType.Equals(TEXT("Agility")))
 		{
-			Character->Agility -= Equip->CurrentNumberOfAgility;
+			Player->Agility -= Equip->CurrentNumberOfAgility;
 		}
 		else if (Item->AbilityType.Equals(TEXT("Skill")))
 		{
-			Character->Skill -= Equip->CurrentNumberOfSkill;
+			Player->Skill -= Equip->CurrentNumberOfSkill;
 		}
 		else if (Item->AbilityType.Equals(TEXT("Tenacity")))
 		{
-			Character->Tenacity -= Equip->CurrentNumberOfTenacity;
+			Player->Tenacity -= Equip->CurrentNumberOfTenacity;
 		}
-	}
+	}*/
 }
 

@@ -15,6 +15,9 @@ class MANSIONOFDARKNESS_API UEquipmentItem : public UItem
 	GENERATED_BODY()
 	
 public:
+
+	UEquipmentItem();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
 		float PlusNumberOfAgility;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
@@ -28,4 +31,26 @@ public:
 		float CurrentNumberOfSkill;
 	UPROPERTY()
 		float CurrentNumberOfTenacity;
+
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+		int PlusNumberOfStat;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+		bool HasAgility;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+		bool HasSkill;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+		bool HasTenacity;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+		int MaxRandNum;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+		int MinRandNum;
+
+	UPROPERTY()
+		TArray<FString> ChooseStatArray;
 };

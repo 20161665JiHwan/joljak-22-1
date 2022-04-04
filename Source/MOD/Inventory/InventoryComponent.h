@@ -47,5 +47,5 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items")
 		TArray<class UItem*> Items;
-		
+	
 };

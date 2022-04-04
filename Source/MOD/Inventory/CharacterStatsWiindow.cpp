@@ -64,13 +64,14 @@ void UCharacterStatsWiindow::NativeConstruct()
 void UCharacterStatsWiindow::SetCurrentAgility()
 {
 	FString strText;
-	AMODCharacter* mo = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	if (mo->StatPoint > 0)
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if (Player->StatPoint > 0)
 	{
-		mo->Agility += 1;
-		strText = FString::Printf(TEXT("%d"), mo->Agility);
-		mo->StatPoint -= 1;
-		LeftStatPoint->SetText(FText::FromString(FString::Printf(TEXT("%d"), mo->StatPoint)));
+		Player->Agility += 1;
+		strText = FString::Printf(TEXT("%d"), Player->Agility);
+		Player->StatPoint -= 1;
+		LeftStatPoint->SetText(FText::FromString(FString::Printf(TEXT("%d"), Player->StatPoint)));
 		CurrentAgility->SetText(FText::FromString(strText));
 	}
 }
@@ -78,13 +79,14 @@ void UCharacterStatsWiindow::SetCurrentAgility()
 void UCharacterStatsWiindow::SetCurrentSkill()
 {
 	FString strText;
-	AMODCharacter* mo = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	if (mo->StatPoint > 0)
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	
+	if (Player->StatPoint > 0)
 	{
-		mo->Skill += 1;
-		strText = FString::Printf(TEXT("%d"), mo->Skill);
-		mo->StatPoint -= 1;
-		LeftStatPoint->SetText(FText::FromString(FString::Printf(TEXT("%d"), mo->StatPoint)));
+		Player->Skill += 1;
+		strText = FString::Printf(TEXT("%d"), Player->Skill);
+		Player->StatPoint -= 1;
+		LeftStatPoint->SetText(FText::FromString(FString::Printf(TEXT("%d"), Player->StatPoint)));
 		CurrentSkill->SetText(FText::FromString(strText));
 	}
 }
@@ -92,13 +94,14 @@ void UCharacterStatsWiindow::SetCurrentSkill()
 void UCharacterStatsWiindow::SetCurrentTenacity()
 {
 	FString strText;
-	AMODCharacter* mo = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	if (mo->StatPoint > 0)
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	
+	if (Player->StatPoint > 0)
 	{
-		mo->Tenacity += 1;
-		strText = FString::Printf(TEXT("%d"), mo->Tenacity);
-		mo->StatPoint -= 1;
-		LeftStatPoint->SetText(FText::FromString(FString::Printf(TEXT("%d"), mo->StatPoint)));
+		Player->Tenacity += 1;
+		strText = FString::Printf(TEXT("%d"), Player->Tenacity);
+		Player->StatPoint -= 1;
+		LeftStatPoint->SetText(FText::FromString(FString::Printf(TEXT("%d"), Player->StatPoint)));
 		CurrentTenacity->SetText(FText::FromString(strText));
 	}
 }

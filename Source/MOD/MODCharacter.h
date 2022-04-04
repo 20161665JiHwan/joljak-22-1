@@ -58,6 +58,7 @@ public:
 	void RemoveInteraction(UInteractionTriggerComponent* trigger);
 
 public:
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int Health;
 
