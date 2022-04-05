@@ -11,8 +11,16 @@ void APlayerCharacterController::OnPossess(APawn* aPawn)
 
 }
 
-void APlayerCharacterController::PopTrapWidget(TSubclassOf<UUserWidget> widgetClass)
+void APlayerCharacterController::ChangeTrapWidget(TSubclassOf<UUserWidget> widgetClass)
 {
+	if (trapWidget != nullptr)
+	{
+		trapWidget->RemoveFromViewport();
+		trapWidget = nullptr;
+
+		GetPawn<AMODCharacter>()->EnableInput(this);
+	}
+
 	if (widgetClass == nullptr)
 	{
 		return;
@@ -27,19 +35,6 @@ void APlayerCharacterController::PopTrapWidget(TSubclassOf<UUserWidget> widgetCl
 	trapWidget->AddToViewport();
 
 	GetPawn<AMODCharacter>()->DisableInput(this);
-}
-
-void APlayerCharacterController::PushTrapWidget(TSubclassOf<UUserWidget> widgetClass)
-{
-	if (widgetClass == nullptr || trapWidget == nullptr)
-	{
-		return;
-	}
-	
-	trapWidget->RemoveFromViewport();
-	trapWidget = nullptr;
-	
-	GetPawn<AMODCharacter>()->EnableInput(this);
 }
 
 void APlayerCharacterController::CloseWindow()

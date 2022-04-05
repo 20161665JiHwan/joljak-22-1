@@ -22,10 +22,7 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable)
-		void PopTrapWidget(TSubclassOf<UUserWidget> widgetClass);
-
-	UFUNCTION(BlueprintCallable)
-		void PushTrapWidget(TSubclassOf<UUserWidget> widgetClass);
+		void ChangeTrapWidget(TSubclassOf<UUserWidget> widgetClass);
 
 	UPROPERTY(BlueprintAssignable, Category = "Event")
 		FTrapStart StartTrapEvent;
