@@ -4,6 +4,8 @@
 #include "GameFramework/Character.h"
 #include "MODCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FGetCollectionItem, AMODCharacter, GetCollectionItem, FString, ItemName);
+
 UCLASS(config = Game)
 class AMODCharacter : public ACharacter
 {
@@ -27,7 +29,8 @@ private:
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
+	
+	UInventoryComponent* GetInventory();
 	// 조작
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
@@ -90,4 +93,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Items")
 		void UseItem(class UItem* Item);
+
+public:
+
+	UPROPERTY(BlueprintAssignable)
+		FGetCollectionItem GetCollectionItem;
 };

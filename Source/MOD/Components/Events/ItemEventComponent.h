@@ -12,4 +12,7 @@ class MANSIONOFDARKNESS_API UItemEventComponent : public UEventComponent
 public:
 	virtual void StartEvent() override;
 	virtual void EndEvent() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Event")
+	FString ItemName;
 };

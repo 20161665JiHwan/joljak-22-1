@@ -155,3 +155,8 @@ void AMODCharacter::UseItem(class UItem* Item)
 		Item->OnUse(this);
 	}
 }
+
+UInventoryComponent* AMODCharacter::GetInventory()
+{
+	return Inventory;
+}
