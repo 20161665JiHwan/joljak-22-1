@@ -8,7 +8,7 @@ struct FSerializedGift
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
 		TSubclassOf<UGift> giftClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
@@ -20,6 +20,15 @@ struct FSerializedGiftTable
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
 		TArray<FSerializedGift> gifts;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FGiftInfo
+{
+	GENERATED_BODY()
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
+		FSerializedGiftTable table;
 };

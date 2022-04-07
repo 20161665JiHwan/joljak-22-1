@@ -16,5 +16,5 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
-		TArray<FSerializedGiftTable> giftTable;
+		FGiftInfo giftTable;
 };
