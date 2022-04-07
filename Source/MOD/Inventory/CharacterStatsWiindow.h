@@ -52,6 +52,16 @@ public:
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 			class UButton* closeBT;
+		/*
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+			class UTextBlock* AgilityCurseText;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+			class UTextBlock* SkillCurseText;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+			class UTextBlock* TenacityCurseText;
+		*/
 public:
 	UFUNCTION()
 		void SetCurrentAgility();

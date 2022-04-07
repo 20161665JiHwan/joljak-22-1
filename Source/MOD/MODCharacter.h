@@ -9,7 +9,7 @@ class AMODCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	virtual void Tick(float DeltaSeconds) override;
+		virtual void Tick(float DeltaSeconds) override;
 
 public:
 	AMODCharacter();
@@ -20,8 +20,10 @@ private:
 		class USpringArmComponent* CameraBoom;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UInventoryComponent* Inventory;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCurseComponent* Curse;
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
@@ -58,6 +60,7 @@ public:
 	void RemoveInteraction(UInteractionTriggerComponent* trigger);
 
 public:
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int Health;
 

@@ -12,6 +12,8 @@
 
 #include "MOD/Inventory/Item.h"
 #include "MOD/Inventory/InventoryComponent.h"
+#include "MOD/Inventory/CharacterCurse.h"
+#include "MOD/Inventory/CurseComponent.h"
 #include "MOD/Inventory/CharacterLevelUp.h"
 
 AMODCharacter::AMODCharacter()
@@ -39,6 +41,8 @@ AMODCharacter::AMODCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	Curse = CreateDefaultSubobject<UCurseComponent>("Curse");
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 

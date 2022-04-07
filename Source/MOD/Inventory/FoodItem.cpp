@@ -6,8 +6,8 @@
 
 void UFoodItem::Use(class AMODCharacter *Character)
 {
-	if (Character)
-	{
-		Character->Health += HealthToheal;
-	}
+	//if (Character)
+	//{
+	//	Character->Health += HealthToheal;
+	//}
 } 
