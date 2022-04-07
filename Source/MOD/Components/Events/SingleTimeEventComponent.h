@@ -4,8 +4,7 @@
 #include "MOD/Components/Events/EventComponent.h"
 #include "SingleTimeEventComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Event), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup = (Event))
 class MANSIONOFDARKNESS_API USingleTimeEventComponent : public UEventComponent
 {
 	GENERATED_BODY()

@@ -4,7 +4,7 @@
 #include "MOD/Components/Events/EventComponent.h"
 #include "DestroyActorEventComponent.generated.h"
 
-UCLASS(ClassGroup = (Event), meta = (BlueprintSpawnableComponent))
+UCLASS(Blueprintable, ClassGroup = (Event))
 class MANSIONOFDARKNESS_API UDestroyActorEventComponent : public UEventComponent
 {
 	GENERATED_BODY()

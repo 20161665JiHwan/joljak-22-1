@@ -7,7 +7,7 @@
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(FEventComponentStart, UBlueprintEventComponent, StartCustomEvent);
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(FEventComponentEnd, UBlueprintEventComponent, EndCustomEvent);
 
-UCLASS( ClassGroup=(Event), meta=(BlueprintSpawnableComponent, Blueprintable) )
+UCLASS(Blueprintable, ClassGroup = (Event))
 class MANSIONOFDARKNESS_API UBlueprintEventComponent : public UEventComponent
 {
 	GENERATED_BODY()

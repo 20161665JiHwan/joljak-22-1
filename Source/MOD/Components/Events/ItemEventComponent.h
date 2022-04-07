@@ -4,8 +4,7 @@
 #include "EventComponent.h"
 #include "ItemEventComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Event), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup = (Event))
 class MANSIONOFDARKNESS_API UItemEventComponent : public UEventComponent
 {
 	GENERATED_BODY()

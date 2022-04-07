@@ -5,8 +5,7 @@
 #include "EventComponent.h"
 #include "TeleportEventComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Event), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup = (Event))
 class MANSIONOFDARKNESS_API UTeleportEventComponent : public UEventComponent
 {
 	GENERATED_BODY()

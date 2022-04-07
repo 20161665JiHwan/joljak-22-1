@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "CoreMinimal.h"
 #include "TrapInfo.generated.h"
 
 USTRUCT(Atomic, BlueprintType)
