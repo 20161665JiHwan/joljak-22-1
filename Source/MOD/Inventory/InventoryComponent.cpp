@@ -54,7 +54,7 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 	{
 		Item->OwningInventory = nullptr;
 		Item->World = nullptr;
-		Items.RemoveSingle(Item);
+		Items.Remove(Item);
 		OnInventoryUpdated.Broadcast();
 		return true;
 	}
@@ -71,15 +71,18 @@ void UInventoryComponent::Equip(class UItem* Item)
 	{
 		if (Equip->EquipType.Equals(TEXT("Top")))
 		{
-			AddItem(TopItems);
+			TopItems = Item;
+			AddItem(Item);
 		}
 		else if (Equip->EquipType.Equals(TEXT("Bottom")))
 		{
-			AddItem(BottomItems);
+			BottomItems = Item;
+			AddItem(Item);
 		}
 		else if (Equip->EquipType.Equals(TEXT("Charm")))
 		{
-			AddItem(CharmItems);
+			CharmItems = Item;
+			AddItem(Item);
 		}
 
 		if (Equip->HasAgility == true)
@@ -95,31 +98,35 @@ void UInventoryComponent::Equip(class UItem* Item)
 			Equip->ChooseStatArray.Add(TEXT("민첩"));
 		}
 		
-		FRandomStream stream;
 		stream.GenerateNewSeed();
 		Equip->PlusNumberOfStat = stream.FRandRange
 		(Equip->MinRandNum, Equip->MaxRandNum);
-		int CollectStat = stream.FRandRange(0, Equip->ChooseStatArray.Num() - 1);
+		int CollectStat = stream.FRandRange(0, (Equip->ChooseStatArray.Num()));
 		UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), stream.GetCurrentSeed());
+		UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), Equip->ChooseStatArray.Num() - 1);
+		UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), CollectStat);
 
 		if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("강인")))
 		{
 			Player->Agility += Equip->PlusNumberOfStat;
-			Equip->CurrentNumberOfAgility = Equip->PlusNumberOfStat;
+			//Equip->CurrentNumberOfAgility = Equip->PlusNumberOfStat;
+			Equip->SettingStatName = Equip->ChooseStatArray[CollectStat];
 			Equip->ItemDescription = (FText::FromString(FString::Printf(TEXT("%s + %d"),
 				*Equip->ChooseStatArray[CollectStat], Equip->PlusNumberOfStat)));
 		}
 		else if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("재주")))
 		{
 			Player->Skill += Equip->PlusNumberOfStat;
-			Equip->CurrentNumberOfSkill = Equip->PlusNumberOfStat;
+			//Equip->CurrentNumberOfSkill = Equip->PlusNumberOfStat;
+			Equip->SettingStatName = Equip->ChooseStatArray[CollectStat];
 			Equip->ItemDescription = (FText::FromString(FString::Printf(TEXT("%s + %d"),
 				*Equip->ChooseStatArray[CollectStat], Equip->PlusNumberOfStat)));
 		}
 		else if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("민첩")))
 		{
 			Player->Tenacity += Equip->PlusNumberOfStat;
-			Equip->CurrentNumberOfTenacity = Equip->PlusNumberOfStat;
+			//Equip->CurrentNumberOfTenacity = Equip->PlusNumberOfStat;
+			Equip->SettingStatName = Equip->ChooseStatArray[CollectStat];
 			Equip->ItemDescription = (FText::FromString(FString::Printf(TEXT("%s + %d"),
 				*Equip->ChooseStatArray[CollectStat], Equip->PlusNumberOfStat)));
 		}
@@ -149,9 +156,22 @@ void UInventoryComponent::TakeOff(class UItem* Item)
 {
 	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	UEquipmentItem* Equip = Cast<UEquipmentItem>(Item);
-	/*
+	
 	if (Player)
 	{
+		if (Equip->SettingStatName.Equals(TEXT("강인")))
+		{
+			Player->Agility -= Equip->PlusNumberOfStat;
+		}
+		else if(Equip->SettingStatName.Equals(TEXT("재주")))
+		{
+			Player->Skill -= Equip->PlusNumberOfStat;
+		}
+		else if (Equip->SettingStatName.Equals(TEXT("민첩")))
+		{
+			Player->Tenacity -= Equip->PlusNumberOfStat;
+		}
+
 		if (Item->EquipType.Equals(TEXT("Top")))
 		{
 			RemoveItem(TopItems);
@@ -164,19 +184,6 @@ void UInventoryComponent::TakeOff(class UItem* Item)
 		{
 			RemoveItem(CharmItems);
 		}
-
-		if (Item->AbilityType.Equals(TEXT("Agility")))
-		{
-			Player->Agility -= Equip->CurrentNumberOfAgility;
-		}
-		else if (Item->AbilityType.Equals(TEXT("Skill")))
-		{
-			Player->Skill -= Equip->CurrentNumberOfSkill;
-		}
-		else if (Item->AbilityType.Equals(TEXT("Tenacity")))
-		{
-			Player->Tenacity -= Equip->CurrentNumberOfTenacity;
-		}
-	}*/
+	}
 }
 

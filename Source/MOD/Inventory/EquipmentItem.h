@@ -18,13 +18,6 @@ public:
 
 	UEquipmentItem();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
-		float PlusNumberOfAgility;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
-		float PlusNumberOfSkill;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
-		float PlusNumberOfTenacity;
-
 	UPROPERTY()
 		float CurrentNumberOfAgility;
 	UPROPERTY()
@@ -32,8 +25,10 @@ public:
 	UPROPERTY()
 		float CurrentNumberOfTenacity;
 
+	UPROPERTY()
+		FString SettingStatName;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
+	UPROPERTY()
 		int PlusNumberOfStat;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))

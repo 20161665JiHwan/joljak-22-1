@@ -23,7 +23,9 @@ public:
 	bool AddItem(class UItem* Item);
 	bool RemoveItem(class UItem* Item);
 
-	
+	UPROPERTY()
+	FRandomStream stream;
+
 	UFUNCTION(BlueprintCallable)
 		void Equip(class UItem* Item);
 	UFUNCTION(BlueprintCallable)

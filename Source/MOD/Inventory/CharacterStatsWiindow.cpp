@@ -59,6 +59,11 @@ void UCharacterStatsWiindow::NativeConstruct()
 	{
 		closeBT->OnClicked.AddDynamic(this, &UCharacterStatsWiindow::CloseCharacterStatsWindow);
 	}
+
+	//AgilityCurseText = Cast<UTextBlock>(GetWidgetFromName(TEXT("AgilityCurseText")));
+	//SkillCurseText = Cast<UTextBlock>(GetWidgetFromName(TEXT("SkillCurseText")));
+	//TenacityCurseText = Cast<UTextBlock>(GetWidgetFromName(TEXT("TenacityCurseText")));
+
 }
 
 void UCharacterStatsWiindow::SetCurrentAgility()
