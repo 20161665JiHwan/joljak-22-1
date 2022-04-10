@@ -8,7 +8,7 @@
 void UTrapEventComponent::StartEvent()
 {
 	APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	controller->ChangeTrapWidget(trapWindowWidgetClass);
+	controller->ChangeEventWidget(trapWindowWidgetClass);
 	controller->StartTrapEvent.Broadcast(trapInfo);
 }
 

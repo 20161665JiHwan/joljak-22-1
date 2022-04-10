@@ -4,7 +4,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/UserWidget.h"
 #include "MOD/TrapInfo.h"
-#include "MOD/SerializedGift.h"
+#include "MOD/GiftInfo.h"
 #include "PlayerCharacterController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FTrapStart, APlayerCharacterController, StartTrapEvent, FTrapInfo, trapInfo);
@@ -21,11 +21,11 @@ public:
 
 public:
 	UPROPERTY(BlueprintReadOnly);
-	class UUserWidget* trapWidget = nullptr;
+	class UUserWidget* eventWidget = nullptr;
 
 public:
 	UFUNCTION(BlueprintCallable)
-		void ChangeTrapWidget(TSubclassOf<UUserWidget> widgetClass);
+		UUserWidget* ChangeEventWidget(TSubclassOf<UUserWidget> widgetClass);
 
 	UPROPERTY(BlueprintAssignable, Category = "Event")
 		FTrapStart StartTrapEvent;

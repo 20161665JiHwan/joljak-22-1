@@ -19,18 +19,19 @@ void UInteractionTriggerComponent::BeginPlay()
 		collision->OnComponentBeginOverlap.AddDynamic(this, &UInteractionTriggerComponent::OnOverlapBegin);
 		collision->OnComponentEndOverlap.AddDynamic(this, &UInteractionTriggerComponent::OnOverlapEnd);
 	}
-	
-	TArray<UActorComponent*> components = owner->GetComponentsByClass(UStaticMeshComponent::StaticClass());
-	for (UActorComponent* component : components)
-	{
-		UStaticMeshComponent* temp = Cast<UStaticMeshComponent>(component);
 
+	TArray<UStaticMeshComponent*> components;
+	owner->GetComponents(components);
+
+	for (UStaticMeshComponent* component : components)
+	{
 		UStaticMeshComponent* newComp = NewObject<UStaticMeshComponent>(this, UStaticMeshComponent::StaticClass(), TEXT("InteractionEffect"));
 		check(newComp);
 		newComp->RegisterComponent();
-		newComp->AttachTo(temp);
-		newComp->SetWorldLocationAndRotation(temp->GetComponentLocation(), temp->GetComponentRotation());
-		newComp->SetStaticMesh(temp->GetStaticMesh());
+		newComp->SetRelativeTransform(component->GetRelativeTransform());
+		newComp->AttachToComponent(component, FAttachmentTransformRules::KeepWorldTransform);
+		newComp->SetWorldLocationAndRotation(component->GetComponentLocation(), component->GetComponentRotation());
+		newComp->SetStaticMesh(component->GetStaticMesh());
 
 		int matNum = newComp->GetNumMaterials();
 		for (int i = 0; i < matNum; i++)

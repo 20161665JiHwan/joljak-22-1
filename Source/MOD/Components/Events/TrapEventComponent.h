@@ -22,10 +22,4 @@ private:
 public :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Event)
 		FTrapInfo trapInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EventConst, meta = (Min = 0))
-		int defaultCompleteWidth;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = EventConst, meta = (Min = 0))
-		int defaultPerfectCompleteWidth;
 };
