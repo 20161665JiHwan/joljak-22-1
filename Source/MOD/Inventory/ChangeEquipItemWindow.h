@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "MOD/MODCharacter.h"
+#include "MOD/Inventory/EquipmentItem.h"
 #include "Components/HorizontalBox.h"
 #include "ChangeEquipItemWindow.generated.h"
 
@@ -19,14 +20,9 @@ class MANSIONOFDARKNESS_API UChangeEquipItemWindow : public UUserWidget
 	
 public:
 
-	virtual void NativeConstruct() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
-		class UHorizontalBox* CurrentItemBox;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
-		class UHorizontalBox* ChangeItemBox;
 	
+	/*virtual void NativeConstruct() override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 		class UTextBlock* AbilityText;
 
@@ -34,11 +30,6 @@ public:
 		class UTextBlock* MinNumberText;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
-		class UTextBlock* MaxNumberText;
+		class UTextBlock* MaxNumberText;*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
-		class UButton* ChangeButton;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
-		class UButton* notChangeButton;
 };

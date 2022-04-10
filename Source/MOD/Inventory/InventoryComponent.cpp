@@ -32,8 +32,11 @@ void UInventoryComponent::BeginPlay()
 	{
 		AddItem(Item);
 	}
+	PreEquip(TopItems);
 	Equip(TopItems);
+	PreEquip(BottomItems);
 	Equip(BottomItems);
+	PreEquip(CharmItems);
 	Equip(CharmItems);
 }
 
@@ -62,29 +65,13 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 	return false;
 }
 
-void UInventoryComponent::Equip(class UItem* Item)
+void UInventoryComponent::PreEquip(class UItem* Item)
 {
 	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	UEquipmentItem* Equip = Cast<UEquipmentItem>(Item);
 
 	if (Player)
 	{
-		if (Equip->EquipType.Equals(TEXT("Top")))
-		{
-			TopItems = Item;
-			AddItem(Item);
-		}
-		else if (Equip->EquipType.Equals(TEXT("Bottom")))
-		{
-			BottomItems = Item;
-			AddItem(Item);
-		}
-		else if (Equip->EquipType.Equals(TEXT("Charm")))
-		{
-			CharmItems = Item;
-			AddItem(Item);
-		}
-
 		if (Equip->HasAgility == true)
 		{
 			Equip->ChooseStatArray.Add(TEXT("강인"));
@@ -97,14 +84,28 @@ void UInventoryComponent::Equip(class UItem* Item)
 		{
 			Equip->ChooseStatArray.Add(TEXT("민첩"));
 		}
-		
+
+		Player->GetInventory()->ChangeItems = Equip;
+
 		stream.GenerateNewSeed();
 		Equip->PlusNumberOfStat = stream.FRandRange
 		(Equip->MinRandNum, Equip->MaxRandNum);
-		int CollectStat = stream.FRandRange(0, (Equip->ChooseStatArray.Num()));
-		UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), stream.GetCurrentSeed());
-		UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), Equip->ChooseStatArray.Num() - 1);
-		UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), CollectStat);
+		CollectStat = stream.FRandRange(0, (Equip->ChooseStatArray.Num()));
+		//UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), stream.GetCurrentSeed());
+		//UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), Equip->ChooseStatArray.Num() - 1);
+		//UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), CollectStat);
+
+		
+	}
+}
+
+void UInventoryComponent::Equip(class UItem* Item)
+{
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	UEquipmentItem* Equip = Cast<UEquipmentItem>(Item);
+
+	if (Player)
+	{
 
 		if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("강인")))
 		{
@@ -132,6 +133,22 @@ void UInventoryComponent::Equip(class UItem* Item)
 		}
 
 		Equip->ChooseStatArray.Empty();
+
+		if (Equip->EquipType.Equals(TEXT("Top")))
+		{
+			TopItems = Item;
+			AddItem(Item);
+		}
+		else if (Equip->EquipType.Equals(TEXT("Bottom")))
+		{
+			BottomItems = Item;
+			AddItem(Item);
+		}
+		else if (Equip->EquipType.Equals(TEXT("Charm")))
+		{
+			CharmItems = Item;
+			AddItem(Item);
+		}
 		/*
 		if (Item->AbilityType.Equals(TEXT("Agility")))
 		{

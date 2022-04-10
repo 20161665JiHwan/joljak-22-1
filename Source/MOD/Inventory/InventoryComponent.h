@@ -26,6 +26,11 @@ public:
 	UPROPERTY()
 	FRandomStream stream;
 
+	UPROPERTY()
+		int CollectStat;
+
+	UFUNCTION(BlueprintCallable)
+		void PreEquip(class UItem* Item);
 	UFUNCTION(BlueprintCallable)
 		void Equip(class UItem* Item);
 	UFUNCTION(BlueprintCallable)
@@ -43,6 +48,8 @@ public:
 		class UItem* BottomItems;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
 		class UItem* CharmItems;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
+		class UEquipmentItem* ChangeItems;
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 		FOnInventoryUpdated OnInventoryUpdated;

@@ -7,13 +7,14 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "MOD/Controllers/PlayerCharacterController.h"
+#include "MOD/Inventory/inventoryComponent.h"
 
 void UCharacterStatsWiindow::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-
+	
 	LeftStatPoint = Cast<UTextBlock>(GetWidgetFromName(TEXT("LeftStatPoint")));
 	LeftStatPoint->SetText(FText::FromString(FString::Printf(TEXT("%d"), Player->StatPoint)));
 
