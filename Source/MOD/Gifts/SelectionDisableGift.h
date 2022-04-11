@@ -9,5 +9,6 @@ class MANSIONOFDARKNESS_API USelectionDisableGift : public UGift
 {
 	GENERATED_BODY()
 
-public:
+protected:
+	virtual void StartGift_Impl(FString param) override;
 };

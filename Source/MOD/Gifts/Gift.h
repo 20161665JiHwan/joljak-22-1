@@ -10,4 +10,9 @@ class MANSIONOFDARKNESS_API UGift : public UObject
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable, Category = Gift)
+		void StartGift(FString param);
+
+protected:
+	virtual void StartGift_Impl(FString param) {};
 };
