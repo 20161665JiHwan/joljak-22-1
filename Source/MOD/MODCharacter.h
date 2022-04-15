@@ -31,6 +31,8 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* CameraComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* Inventory;
 public:
 	FORCEINLINE class UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 
@@ -74,27 +76,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int MaxHealth;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		int Tenacity;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		int Skill;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		int Agility;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		int Luck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		int StatPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		int CurrentEXP;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-		int MaxEXP;
-
 	UFUNCTION(BlueprintCallable, Category = "Items")
 		void UseItem(class UItem* Item);
 
@@ -104,7 +85,5 @@ public:
 		FGetCollectionItem GetCollectionItem;
 
 private:
-	class UInventoryComponent* Inventory;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCurseComponent* Curse;
+	
 };

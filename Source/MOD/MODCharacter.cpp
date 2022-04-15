@@ -12,9 +12,6 @@
 
 #include "MOD/Inventory/Item.h"
 #include "MOD/Inventory/InventoryComponent.h"
-#include "MOD/Inventory/CharacterCurse.h"
-#include "MOD/Inventory/CurseComponent.h"
-#include "MOD/Inventory/CharacterLevelUp.h"
 
 AMODCharacter::AMODCharacter()
 {
@@ -36,7 +33,6 @@ AMODCharacter::AMODCharacter()
 	Mesh1P->CastShadow = false;
 	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
-	Curse = CreateDefaultSubobject<UCurseComponent>("Curse");
 
 	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
 	FP_Gun->SetOnlyOwnerSee(false);
@@ -45,17 +41,11 @@ AMODCharacter::AMODCharacter()
 	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
 	FP_Gun->SetupAttachment(RootComponent);
 
-	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 
 	Health = 100;
 	MaxHealth = 100;
-	Tenacity = 0;
-	Skill = 0;
-	Agility = 0;
-	Luck = 0;
-	StatPoint = 10;
-	CurrentEXP = 0;
-	MaxEXP = 100;
+
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 }
 
 void AMODCharacter::BeginPlay()
@@ -67,8 +57,7 @@ void AMODCharacter::BeginPlay()
 
 void AMODCharacter::Tick(float DeltaSeconds)
 {
-	CharacterLevelUp* CharacterLV = Cast<CharacterLevelUp>(this);
-	CharacterLV->LevelUp();
+
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -161,14 +150,4 @@ void AMODCharacter::UseItem(class UItem* Item)
 UInventoryComponent* AMODCharacter::GetInventory()
 {
 	return Inventory;
-}
-
-int AMODCharacter::GetCurrentHealth()
-{
-	return Health;
-}
-
-void AMODCharacter::SetCurrentHealth(int Value)
-{
-	Health += Value;
 }

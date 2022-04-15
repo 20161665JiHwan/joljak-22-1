@@ -41,9 +41,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 		bool IsFind;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0))
-		FString EquipType;
-
 	UPROPERTY()
 		class UInventoryComponent* OwningInventory;
 

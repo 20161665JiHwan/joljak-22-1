@@ -23,36 +23,11 @@ public:
 	bool AddItem(class UItem* Item);
 	bool RemoveItem(class UItem* Item);
 
-	UPROPERTY()
-	FRandomStream stream;
-
-	UPROPERTY()
-		int CollectStat;
-
-	UFUNCTION(BlueprintCallable)
-		void PreEquip(class UItem* Item);
-	UFUNCTION(BlueprintCallable)
-		void Equip(class UItem* Item);
-	UFUNCTION(BlueprintCallable)
-		void TakeOff(class UItem* Item);
-
 	UFUNCTION(BlueprintCallable)
 		bool FindCollectionItem(FText ItemName);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
 		TArray<class UItem*> KeyItems;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
-		TArray<class UItem*> ProvisoItems;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
-		TArray<class UItem*> ToolItems;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
-		class UItem* TopItems;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
-		class UItem* BottomItems;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
-		class UItem* CharmItems;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
-		class UEquipmentItem* ChangeItems;
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 		FOnInventoryUpdated OnInventoryUpdated;
