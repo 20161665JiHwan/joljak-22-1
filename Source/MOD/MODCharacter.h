@@ -31,6 +31,12 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	
 	UInventoryComponent* GetInventory();
+
+	UFUNCTION()
+		int GetCurrentHealth();
+	UFUNCTION()
+		void SetCurrentHealth(int Value);
+
 	// 조작
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)

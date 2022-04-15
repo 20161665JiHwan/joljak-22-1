@@ -87,10 +87,10 @@ void UInventoryComponent::PreEquip(class UItem* Item)
 
 		Player->GetInventory()->ChangeItems = Equip;
 
-		stream.GenerateNewSeed();
-		Equip->PlusNumberOfStat = stream.FRandRange
-		(Equip->MinRandNum, Equip->MaxRandNum);
-		CollectStat = stream.FRandRange(0, (Equip->ChooseStatArray.Num()));
+		//stream.GenerateNewSeed();
+		//Equip->PlusNumberOfStat = stream.FRandRange
+		//(Equip->MinRandNum, Equip->MaxRandNum);
+		//CollectStat = stream.FRandRange(0, (Equip->ChooseStatArray.Num()));
 		//UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), stream.GetCurrentSeed());
 		//UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), Equip->ChooseStatArray.Num() - 1);
 		//UE_LOG(LogTemp, Log, TEXT("Character Name :: %d"), CollectStat);
@@ -106,6 +106,9 @@ void UInventoryComponent::Equip(class UItem* Item)
 
 	if (Player)
 	{
+		stream.GenerateNewSeed();
+		Equip->PlusNumberOfStat = stream.FRandRange(Equip->MinRandNum, Equip->MaxRandNum);
+		CollectStat = stream.FRandRange(0, (Equip->ChooseStatArray.Num()));
 
 		if (Equip->ChooseStatArray[CollectStat].Equals(TEXT("강인")))
 		{
@@ -204,3 +207,14 @@ void UInventoryComponent::TakeOff(class UItem* Item)
 	}
 }
 
+bool UInventoryComponent::FindCollectionItem(FText ItemName)
+{
+	for (int i = 0; i < Items.Num(); i++)
+	{
+		if (Items[i]->ItemDisplayName.EqualTo(ItemName) && (Items[i]->IsFind == true))
+		{
+			return true;
+		}
+	}
+	return false;
+}

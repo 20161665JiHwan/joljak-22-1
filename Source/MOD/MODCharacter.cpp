@@ -160,3 +160,13 @@ UInventoryComponent* AMODCharacter::GetInventory()
 {
 	return Inventory;
 }
+
+int AMODCharacter::GetCurrentHealth()
+{
+	return Health;
+}
+
+void AMODCharacter::SetCurrentHealth(int Value)
+{
+	Health += Value;
+}

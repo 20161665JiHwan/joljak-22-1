@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void TakeOff(class UItem* Item);
 
+	UFUNCTION(BlueprintCallable)
+		bool FindCollectionItem(FText ItemName);
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
 		TArray<class UItem*> KeyItems;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)

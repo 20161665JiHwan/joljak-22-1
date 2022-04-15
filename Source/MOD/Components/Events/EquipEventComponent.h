@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "EventComponent.h"
 #include "MOD/Inventory/EquipmentItem.h"
+#include "MOD/Inventory/ChangeEquipItemWindow.h"
 #include "EquipEventComponent.generated.h"
 
 
@@ -19,4 +20,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Event, meta = (AllowPrivateAccess = "true"))
 		UEquipmentItem* EquipmentItem;
 		
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UChangeEquipItemWindow> ChangeEquipItemWindowClass;
+	class UChangeEquipItemWindow* ChangeEquipItemWindowObject;
 };

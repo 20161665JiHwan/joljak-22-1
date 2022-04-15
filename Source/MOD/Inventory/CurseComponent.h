@@ -23,6 +23,13 @@ public:
 		bool AddCurse(class UCharacterCurse* CharacterCurse);
 		bool RemoveCurse(class UCharacterCurse* CharacterCurse);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int OverMinusAgility;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int OverMinusSkill;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int OverMinusTenacity;
+
 	UFUNCTION(BlueprintCallable)
 		void ActiveCurse(class UCharacterCurse* CharacterCurse);
 	UFUNCTION(BlueprintCallable)

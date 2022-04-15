@@ -2,6 +2,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "MOD/MODCharacter.h"
 #include "MOD/Inventory/InventoryComponent.h"
+#include "MOD/Inventory/ChangeEquipItemWindow.h"
+#include "MOD/Controllers/PlayerCharacterController.h"
+#include "Logging/LogMacros.h"
 
 void UEquipEventComponent::StartEvent()
 {
@@ -9,19 +12,17 @@ void UEquipEventComponent::StartEvent()
 
 	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
-	if (EquipmentItem->EquipType == ("Top"))
+	Player->GetInventory()->PreEquip(EquipmentItem);
+	
+	ChangeEquipItemWindowClass = LoadClass<UChangeEquipItemWindow>(nullptr, TEXT("/Game/Yongchan/UI_ChangeEquipItem1.UI_ChangeEquipItem1_C"));
+	ChangeEquipItemWindowObject = CreateWidget<UChangeEquipItemWindow>(UGameplayStatics::GetPlayerController(Player, 0),
+		ChangeEquipItemWindowClass);
+	if (ChangeEquipItemWindowObject)
 	{
-		Player->GetInventory()->TakeOff(Player->GetInventory()->TopItems);
+		ChangeEquipItemWindowObject->AddToViewport();
+		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		controller->OpenWindow();
 	}
-	else if (EquipmentItem->EquipType == ("Bottom"))
-	{
-		Player->GetInventory()->TakeOff(Player->GetInventory()->BottomItems);
-	}
-	else if (EquipmentItem->EquipType == ("Charm"))
-	{
-		Player->GetInventory()->TakeOff(Player->GetInventory()->CharmItems);
-	}
-	Player->GetInventory()->Equip(EquipmentItem);
 }
 
 void UEquipEventComponent::EndEvent()

@@ -53,15 +53,51 @@ void UCurseComponent::ActiveCurse(class UCharacterCurse* CharacterCurse)
 	{
 		if (CharacterCurse->CurseType.EqualTo(FText::FromString(FString::Printf(TEXT("강인")))))
 		{
-			Player->Agility += CharacterCurse->DiscountStatPoint;
+			if (Player->Agility <= 0)
+			{
+				OverMinusAgility += CharacterCurse->DiscountStatPoint;
+			}
+			else if (Player->Agility + CharacterCurse->DiscountStatPoint < 0)
+			{
+				OverMinusAgility = Player->Agility + CharacterCurse->DiscountStatPoint;
+				Player->Agility = 0;
+			}
+			else
+			{
+				Player->Agility += CharacterCurse->DiscountStatPoint;
+			}
 		}
 		if (CharacterCurse->CurseType.EqualTo(FText::FromString(FString::Printf(TEXT("재주")))))
 		{
-			Player->Skill += CharacterCurse->DiscountStatPoint;
+			if (Player->Skill <= 0)
+			{
+				OverMinusSkill += CharacterCurse->DiscountStatPoint;
+			}
+			else if (Player->Skill + CharacterCurse->DiscountStatPoint < 0)
+			{
+				OverMinusSkill = Player->Skill + CharacterCurse->DiscountStatPoint;
+				Player->Skill = 0;
+			}
+			else
+			{
+				Player->Skill += CharacterCurse->DiscountStatPoint;
+			}
 		}
 		if (CharacterCurse->CurseType.EqualTo(FText::FromString(FString::Printf(TEXT("민첩")))))
 		{
-			Player->Tenacity += CharacterCurse->DiscountStatPoint;
+			if (Player->Tenacity <= 0)
+			{
+				OverMinusTenacity += CharacterCurse->DiscountStatPoint;
+			}
+			else if (Player->Tenacity + CharacterCurse->DiscountStatPoint < 0)
+			{
+				OverMinusTenacity = Player->Tenacity + CharacterCurse->DiscountStatPoint;
+				Player->Tenacity = 0;
+			}
+			else
+			{
+				Player->Tenacity += CharacterCurse->DiscountStatPoint;
+			}
 		}
 		AddCurse(CharacterCurse);
 		CharacterCurse->IsActive = true;
@@ -76,15 +112,51 @@ void UCurseComponent::InActiveCurse(class UCharacterCurse* CharacterCurse)
 	{
 		if (CharacterCurse->CurseType.EqualTo(FText::FromString(FString::Printf(TEXT("강인")))))
 		{
-			Player->Agility -= CharacterCurse->DiscountStatPoint;
+			if (OverMinusAgility >= 0)
+			{
+				Player->Agility -= CharacterCurse->DiscountStatPoint;
+			}
+			else if (OverMinusAgility - CharacterCurse->DiscountStatPoint < 0)
+			{
+				OverMinusAgility -= CharacterCurse->DiscountStatPoint;
+			}
+			else if (OverMinusAgility - CharacterCurse->DiscountStatPoint >= 0)
+			{
+				Player->Agility = (OverMinusAgility - CharacterCurse->DiscountStatPoint);
+				OverMinusAgility = 0;
+			}
 		}
 		if (CharacterCurse->CurseType.EqualTo(FText::FromString(FString::Printf(TEXT("재주")))))
 		{
-			Player->Skill -= CharacterCurse->DiscountStatPoint;
+			if (OverMinusSkill >= 0)
+			{
+				Player->Skill -= CharacterCurse->DiscountStatPoint;
+			}
+			else if (OverMinusSkill - CharacterCurse->DiscountStatPoint < 0)
+			{
+				OverMinusSkill -= CharacterCurse->DiscountStatPoint;
+			}
+			else if (OverMinusSkill - CharacterCurse->DiscountStatPoint >= 0)
+			{
+				Player->Skill = (OverMinusSkill - CharacterCurse->DiscountStatPoint);
+				OverMinusSkill = 0;
+			}
 		}
 		if (CharacterCurse->CurseType.EqualTo(FText::FromString(FString::Printf(TEXT("민첩")))))
 		{
-			Player->Tenacity -= CharacterCurse->DiscountStatPoint;
+			if (OverMinusTenacity >= 0)
+			{
+				Player->Tenacity -= CharacterCurse->DiscountStatPoint;
+			}
+			else if (OverMinusTenacity - CharacterCurse->DiscountStatPoint < 0)
+			{
+				OverMinusTenacity -= CharacterCurse->DiscountStatPoint;
+			}
+			else if (OverMinusTenacity - CharacterCurse->DiscountStatPoint >= 0)
+			{
+				Player->Tenacity = (OverMinusTenacity - CharacterCurse->DiscountStatPoint);
+				OverMinusTenacity = 0;
+			}
 		}
 		RemoveCurse(CharacterCurse);
 		CharacterCurse->IsActive = false;
