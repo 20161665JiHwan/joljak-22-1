@@ -2,7 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "EventComponent.h"
-#include "MOD/SerializedGift.h"
+#include "Blueprint/UserWidget.h"
+#include "MOD/GiftInfo.h"
 #include "GiftEventComponent.generated.h"
 
 UCLASS(Blueprintable, ClassGroup = (Event))
@@ -14,7 +15,11 @@ public:
 	virtual void StartEvent() override;
 	virtual void EndEvent() override;
 
+private:
+	UPROPERTY(EditAnywhere, Category = Event, meta = (AllowPrivateAcess = true))
+		TSubclassOf<class UUserWidget> giftWindowWidgetClass;
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gift)
-		FGiftInfo giftTable;
+		FGiftInfo giftInfo;
 };

@@ -1,7 +1,6 @@
 #include "PlayerCharacterController.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
-#include "MOD/MODCharacter.h"
 
 #include "MOD/MODCharacter.h"
 
@@ -11,30 +10,32 @@ void APlayerCharacterController::OnPossess(APawn* aPawn)
 
 }
 
-void APlayerCharacterController::ChangeTrapWidget(TSubclassOf<UUserWidget> widgetClass)
+UUserWidget* APlayerCharacterController::ChangeEventWidget(TSubclassOf<UUserWidget> widgetClass)
 {
-	if (trapWidget != nullptr)
+	if (eventWidget != nullptr)
 	{
-		trapWidget->RemoveFromViewport();
-		trapWidget = nullptr;
+		eventWidget->RemoveFromViewport();
+		eventWidget = nullptr;
 
 		GetPawn<AMODCharacter>()->EnableInput(this);
 	}
 
 	if (widgetClass == nullptr)
 	{
-		return;
+		return nullptr;
 	}
 
-	trapWidget = CreateWidget<UUserWidget>(this, widgetClass);
-	if (trapWidget == nullptr)
+	eventWidget = CreateWidget<UUserWidget>(this, widgetClass);
+	if (eventWidget == nullptr)
 	{
-		return;
+		return nullptr;
 	}
 
-	trapWidget->AddToViewport();
+	eventWidget->AddToViewport();
 
 	GetPawn<AMODCharacter>()->DisableInput(this);
+
+	return eventWidget;
 }
 
 void APlayerCharacterController::CloseWindow()
