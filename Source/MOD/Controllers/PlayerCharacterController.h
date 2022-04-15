@@ -4,12 +4,9 @@
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/UserWidget.h"
 #include "MOD/TrapInfo.h"
-#include "MOD/GiftInfo.h"
 #include "PlayerCharacterController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FTrapStart, APlayerCharacterController, StartTrapEvent, FTrapInfo, trapInfo);
-
-DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FGiftStart, APlayerCharacterController, StartGiftEvent, FGiftInfo, giftInfo);
 
 UCLASS()
 class MANSIONOFDARKNESS_API APlayerCharacterController : public APlayerController
@@ -30,8 +27,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Event")
 		FTrapStart StartTrapEvent;
 
-	UPROPERTY(BlueprintAssignable, Category = "Event")
-		FGiftStart StartGiftEvent;
 public:
 	UFUNCTION(BlueprintCallable)
 		void CloseWindow();
