@@ -18,31 +18,32 @@
 
 AMODCharacter::AMODCharacter()
 {
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 	SprintRate = 1.5f;
 
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
+	CameraComponent->SetupAttachment(GetCapsuleComponent());
+	CameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
+	CameraComponent->bUsePawnControlRotation = true;
 
-	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
-	GetCharacterMovement()->JumpZVelocity = 600.f;
-	GetCharacterMovement()->AirControl = 0.2f;
-
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f;
-	CameraBoom->bUsePawnControlRotation = true;
-
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	FollowCamera->bUsePawnControlRotation = false;
-
+	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
+	Mesh1P->SetOnlyOwnerSee(true);
+	Mesh1P->SetupAttachment(CameraComponent);
+	Mesh1P->bCastDynamicShadow = false;
+	Mesh1P->CastShadow = false;
+	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
+	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 	Curse = CreateDefaultSubobject<UCurseComponent>("Curse");
+
+	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
+	FP_Gun->SetOnlyOwnerSee(false);
+	FP_Gun->bCastDynamicShadow = false;
+	FP_Gun->CastShadow = false;
+	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
+	FP_Gun->SetupAttachment(RootComponent);
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 
@@ -55,6 +56,19 @@ AMODCharacter::AMODCharacter()
 	StatPoint = 10;
 	CurrentEXP = 0;
 	MaxEXP = 100;
+}
+
+void AMODCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+}
+
+void AMODCharacter::Tick(float DeltaSeconds)
+{
+	CharacterLevelUp* CharacterLV = Cast<CharacterLevelUp>(this);
+	CharacterLV->LevelUp();
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -73,12 +87,6 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
 }
 
-void AMODCharacter::Tick(float DeltaSeconds)
-{
-	CharacterLevelUp* CharacterLV = Cast<CharacterLevelUp>(this);
-	CharacterLV->LevelUp();
-}
-
 void AMODCharacter::TurnAtRate(float Rate)
 {
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
@@ -86,25 +94,19 @@ void AMODCharacter::TurnAtRate(float Rate)
 
 void AMODCharacter::MoveForward(float Value)
 {
-	if ((Controller != nullptr) && (Value != 0.0f))
+	if (Value != 0.0f)
 	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+		// add movement in that direction
+		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
 
 void AMODCharacter::MoveRight(float Value)
 {
-	if ( (Controller != nullptr) && (Value != 0.0f) )
+	if (Value != 0.0f)
 	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		AddMovementInput(Direction, Value);
+		// add movement in that direction
+		AddMovementInput(GetActorRightVector(), Value);
 	}
 }
 

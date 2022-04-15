@@ -11,26 +11,30 @@ class AMODCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-		virtual void Tick(float DeltaSeconds) override;
+protected:
+	virtual void BeginPlay();
+	virtual void Tick(float DeltaSeconds) override;
 
 public:
 	AMODCharacter();
-	
+
+private:
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		USkeletalMeshComponent* Mesh1P;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		USkeletalMeshComponent* FP_Gun;
+public:
+	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+
 	// 카메라
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class USpringArmComponent* CameraBoom;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCameraComponent* FollowCamera;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UInventoryComponent* Inventory;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCurseComponent* Curse;
+		class UCameraComponent* CameraComponent;
 public:
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	
-	UInventoryComponent* GetInventory();
+	FORCEINLINE class UCameraComponent* GetCameraComponent() const { return CameraComponent; }
+
+	class UInventoryComponent* GetInventory();
 	// 조작
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
@@ -47,7 +51,7 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void TurnAtRate(float Rate);
-	
+
 	void Sprint();
 	void StopSprinting();
 
@@ -56,7 +60,7 @@ protected:
 	// 상호작용
 private:
 	UPROPERTY(VisibleAnywhere)
-	TArray<class UInteractionTriggerComponent*> interactions;
+		TArray<class UInteractionTriggerComponent*> interactions;
 
 public:
 	void AddInteraction(UInteractionTriggerComponent* trigger);
@@ -98,4 +102,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 		FGetCollectionItem GetCollectionItem;
+
+private:
+	class UInventoryComponent* Inventory;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCurseComponent* Curse;
 };
