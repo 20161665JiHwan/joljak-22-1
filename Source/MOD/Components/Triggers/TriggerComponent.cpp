@@ -1,52 +1,81 @@
 #include "TriggerComponent.h"
 #include "MOD/MansionOfDarkness.h"
 
-bool UTriggerComponent::GetTriggerOn()
+#include "MOD/Components/Events/EventComponent.h"
+
+void UTriggerComponent::BeginPlay()
 {
-	return isOn;
+	TArray<USceneComponent*> sceneComps;
+	GetParentComponents(sceneComps);
+	
+	for (USceneComponent* sceneComp : sceneComps)
+	{
+		UTriggerComponent* trigger = Cast<UTriggerComponent>(sceneComp);
+		if (trigger)
+		{
+			return;
+		}
+	}
+	Activate();
+}
+
+void UTriggerComponent::Activate(bool bReset)
+{
+	Super::Activate();
+}
+
+void UTriggerComponent::Deactivate()
+{
+	Super::Deactivate();
 }
 
 void UTriggerComponent::SetTrigger(bool setOn)
 {
-	isOn = setOn;
+	UE_LOG(TriggerEvent, Log, TEXT("%s is %s!"), *(GetFName().ToString()), (setOn ? TEXT("true") : TEXT("false")));
 
-	AActor* owner = GetOwner();
-	if (isOn)
+	TArray<USceneComponent*> sceneComps;
+	GetChildrenComponents(false, sceneComps);
+
+	TArray<UEventComponent*> eventComps;
+
+	for (USceneComponent* sceneComp : sceneComps)
 	{
-		TArray<UActorComponent*> triggers;
-		owner->GetComponents(UTriggerComponent::StaticClass(), triggers);
-		for (UActorComponent* trigger : triggers)
+		UTriggerComponent* trigger = Cast<UTriggerComponent>(sceneComp);
+		if (trigger)
 		{
-			UTriggerComponent* temp = Cast<UTriggerComponent>(trigger);
-			UE_LOG(TriggerEvent, Log, TEXT("%s is %s!"), *(temp->GetFName().ToString()), (temp->GetTriggerOn() ? TEXT("true") : TEXT("false")));
-			if (!temp->GetTriggerOn())
+			if (setOn)
 			{
-				return;
+				trigger->Activate();
+			}
+			else
+			{
+				trigger->Deactivate();
 			}
 		}
-
-		TArray<UActorComponent*> eventsA;
-		owner->GetComponents(UEventComponent::StaticClass(), eventsA);
-
-		TArray<UEventComponent*>& events = reinterpret_cast<TArray<UEventComponent*>&>(eventsA);
-		events.Sort([](const UEventComponent& a, const UEventComponent& b) {return a.priority < b.priority; });
-		
-		for (UActorComponent* event : events)
+		else
 		{
-			UEventComponent* temp = Cast<UEventComponent>(event);
-			UE_LOG(TriggerEvent, Log, TEXT("%s Start!"), *(temp->GetFName().ToString()));
-			temp->StartEvent();
+			UEventComponent* eventComp = Cast<UEventComponent>(sceneComp);
+			if (eventComp)
+			{
+				eventComps.Add(eventComp);
+			}
 		}
 	}
-	else
+	
+	TArray<UEventComponent*>& events = reinterpret_cast<TArray<UEventComponent*>&>(eventComps);
+	events.Sort([](const UEventComponent& a, const UEventComponent& b) {return a.priority < b.priority; });
+
+	for (UEventComponent* eventComp : events)
 	{
-		TArray<UActorComponent*> events;
-		owner->GetComponents(UEventComponent::StaticClass(), events);
-		for (UActorComponent* event : events)
+		if (setOn)
 		{
-			UEventComponent* temp = Cast<UEventComponent>(event);
-			UE_LOG(TriggerEvent, Log, TEXT("%s End!"), *(temp->GetFName().ToString()));
-			temp->EndEvent();
+			UE_LOG(TriggerEvent, Log, TEXT("%s Start!"), *(eventComp->GetFName().ToString()));
+			eventComp->StartEvent();
+		}
+		else
+		{
+			UE_LOG(TriggerEvent, Log, TEXT("%s End!"), *(eventComp->GetFName().ToString()));
+			eventComp->EndEvent();
 		}
 	}
 }
