@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "MOD/MODCharacter.h"
 #include "InventoryWindow.generated.h"
 
 /**

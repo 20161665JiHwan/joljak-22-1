@@ -7,11 +7,14 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+
 #include "MOD/Components/Triggers/InteractionTriggerComponent.h"
 #include "MOD/Controllers/PlayerCharacterController.h"
 
 #include "MOD/Inventory/Item.h"
 #include "MOD/Inventory/InventoryComponent.h"
+#include "MOD/Inventory/InventoryWindow.h"
 
 AMODCharacter::AMODCharacter()
 {
@@ -74,6 +77,8 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::StopSprinting);
 
 	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
+
+	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
 }
 
 void AMODCharacter::TurnAtRate(float Rate)
@@ -150,4 +155,20 @@ void AMODCharacter::UseItem(class UItem* Item)
 UInventoryComponent* AMODCharacter::GetInventory()
 {
 	return Inventory;
+}
+
+void AMODCharacter::OpenInventory()
+{
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	UE_LOG(LogTemp, Log, TEXT("Log Message1"));
+	InventoryWindowClass = LoadClass<UUserWidget>(nullptr, TEXT("/Game/Yongchan/UI_Inventory.UI_Inventory_C"));
+	InventoryWindowObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), InventoryWindowClass);
+	if (InventoryWindowObject)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Log Message2"));
+		InventoryWindowObject->AddToViewport();
+		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		controller->OpenWindow();
+	}
 }

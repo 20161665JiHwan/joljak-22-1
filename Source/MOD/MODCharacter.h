@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "MOD/Inventory/InventoryWindow.h"
 #include "MODCharacter.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FGetCollectionItem, AMODCharacter, GetCollectionItem, FString, ItemName);
@@ -59,6 +60,7 @@ protected:
 
 	void Interaction();
 
+	void OpenInventory();
 	// 상호작용
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -83,6 +85,10 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 		FGetCollectionItem GetCollectionItem;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> InventoryWindowClass;
+	class UUserWidget* InventoryWindowObject;
 
 private:
 	
