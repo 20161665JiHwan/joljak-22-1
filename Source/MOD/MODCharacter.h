@@ -14,7 +14,6 @@ class AMODCharacter : public ACharacter
 
 protected:
 	virtual void BeginPlay();
-	virtual void Tick(float DeltaSeconds) override;
 
 public:
 	AMODCharacter();
@@ -25,6 +24,7 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FP_Gun;
+
 public:
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 
@@ -33,20 +33,26 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* CameraComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UInventoryComponent* Inventory;
+		class UInventoryComponent* Inventory;
 public:
 	FORCEINLINE class UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 
 	class UInventoryComponent* GetInventory();
+	
 	// 조작
+private:
+	UInputComponent* inputComponent;
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	UPROPERTY(EditAnywhere, Category = "Character Movement: Walking")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Walking")
 		float SprintRate;
+
+	UInputComponent* GetInputComponent();
 
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -58,20 +64,9 @@ protected:
 	void Sprint();
 	void StopSprinting();
 
-	void Interaction();
-
 	void OpenInventory();
-	// 상호작용
-private:
-	UPROPERTY(VisibleAnywhere)
-		TArray<class UInteractionTriggerComponent*> interactions;
 
 public:
-	void AddInteraction(UInteractionTriggerComponent* trigger);
-	void RemoveInteraction(UInteractionTriggerComponent* trigger);
-
-public:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int Health;
 
@@ -91,5 +86,5 @@ public:
 	class UUserWidget* InventoryWindowObject;
 
 private:
-	
+
 };

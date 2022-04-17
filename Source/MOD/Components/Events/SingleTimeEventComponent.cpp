@@ -7,8 +7,6 @@ void USingleTimeEventComponent::StartEvent()
 {
 	AActor* owner = GetOwner();
 
-	UE_LOG(TriggerEvent, Log, TEXT("SingleTimeEvent Begin!"));
-
 	TArray<UActorComponent*> triggers;
 	owner->GetComponents(UTriggerComponent::StaticClass(), triggers);
 	for (UActorComponent* tmpTrigger : triggers)
@@ -22,8 +20,6 @@ void USingleTimeEventComponent::StartEvent()
 	{
 		tmpEvent->DestroyComponent(true);
 	}
-
-	UE_LOG(TriggerEvent, Log, TEXT("SingleTimeEvent End!"));
 }
 
 void USingleTimeEventComponent::EndEvent()

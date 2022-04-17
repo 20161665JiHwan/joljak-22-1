@@ -7,12 +7,42 @@ void UOverlapTriggerComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AActor* owner = GetOwner();
-	UShapeComponent* collision = owner->FindComponentByClass<UShapeComponent>();
-	if (collision != nullptr)
+}
+
+void UOverlapTriggerComponent::Activate(bool bReset)
+{
+	Super::Activate();
+
+	UE_LOG(TriggerEvent, Log, TEXT("Overlap Activate!"));
+
+	TArray<USceneComponent*> comps;
+	GetChildrenComponents(false, comps);
+
+	for (USceneComponent* comp : comps)
 	{
-		collision->OnComponentBeginOverlap.AddDynamic(this, &UOverlapTriggerComponent::OnOverlapBegin);
-		collision->OnComponentEndOverlap.AddDynamic(this, &UOverlapTriggerComponent::OnOverlapEnd);
+		UShapeComponent* collision = Cast<UShapeComponent>(comp);
+		if (collision)
+		{
+			collision->OnComponentBeginOverlap.AddDynamic(this, &UOverlapTriggerComponent::OnOverlapBegin);
+			collision->OnComponentEndOverlap.AddDynamic(this, &UOverlapTriggerComponent::OnOverlapEnd);
+		}
+	}
+}
+
+void UOverlapTriggerComponent::Deactivate()
+{
+	Super::Deactivate();
+
+	TArray<USceneComponent*> comps;
+	GetChildrenComponents(false, comps);
+	for (USceneComponent* comp : comps)
+	{
+		UShapeComponent* collision = Cast<UShapeComponent>(comp);
+		if (collision)
+		{
+			collision->OnComponentBeginOverlap.Remove(this, "OnOverlapBegin");
+			collision->OnComponentEndOverlap.Remove(this, "OnOverlapEnd");
+		}
 	}
 }
 

@@ -5,12 +5,11 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 
 #include "Kismet/GameplayStatics.h"
 
-#include "MOD/Components/Triggers/InteractionTriggerComponent.h"
 #include "MOD/Controllers/PlayerCharacterController.h"
+#include "MOD/Components/Triggers/InteractionTriggerComponent.h"
 
 #include "MOD/Inventory/Item.h"
 #include "MOD/Inventory/InventoryComponent.h"
@@ -41,9 +40,7 @@ AMODCharacter::AMODCharacter()
 	FP_Gun->SetOnlyOwnerSee(false);
 	FP_Gun->bCastDynamicShadow = false;
 	FP_Gun->CastShadow = false;
-	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
 	FP_Gun->SetupAttachment(RootComponent);
-
 
 	Health = 100;
 	MaxHealth = 100;
@@ -58,14 +55,11 @@ void AMODCharacter::BeginPlay()
 	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 }
 
-void AMODCharacter::Tick(float DeltaSeconds)
-{
-
-}
-
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	check(PlayerInputComponent);
+	inputComponent = PlayerInputComponent;
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMODCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMODCharacter::MoveRight);
 
@@ -75,10 +69,13 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMODCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::StopSprinting);
-
-	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
-
+	
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
+}
+
+UInputComponent* AMODCharacter::GetInputComponent()
+{
+	return InputComponent;
 }
 
 void AMODCharacter::TurnAtRate(float Rate)
@@ -90,7 +87,6 @@ void AMODCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
 	{
-		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
@@ -99,7 +95,6 @@ void AMODCharacter::MoveRight(float Value)
 {
 	if (Value != 0.0f)
 	{
-		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
 	}
 }
@@ -112,35 +107,6 @@ void AMODCharacter::Sprint()
 void AMODCharacter::StopSprinting()
 {
 	GetCharacterMovement()->MaxWalkSpeed /= SprintRate;
-}
-
-void AMODCharacter::Interaction()
-{
-	if (interactions.Num() == 0)
-	{
-		return;
-	}
-
-	// 오브젝트 판별 알고리즘 추가 해야함.
-	// 판별해서 현재 상호작용 중인 오브젝트 따로 저장.
-
-	interactions[0]->StartInteraction();
-}
-
-void AMODCharacter::AddInteraction(class UInteractionTriggerComponent* trigger)
-{
-	if (!interactions.Contains(trigger))
-	{
-		interactions.Add(trigger);
-	}
-}
-
-void AMODCharacter::RemoveInteraction(class UInteractionTriggerComponent* trigger)
-{
-	if (interactions.Contains(trigger))
-	{
-		interactions.Remove(trigger);
-	}
 }
 
 void AMODCharacter::UseItem(class UItem* Item)

@@ -12,7 +12,7 @@ class MANSIONOFDARKNESS_API UBlueprintEventComponent : public UEventComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	virtual void StartEvent() override;
 	virtual void EndEvent() override;
 

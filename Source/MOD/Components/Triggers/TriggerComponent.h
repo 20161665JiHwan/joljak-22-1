@@ -1,20 +1,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
-#include "MOD/Components/Events/EventComponent.h"
+#include "Components/SceneComponent.h"
 #include "TriggerComponent.generated.h"
 
-
 UCLASS( abstract )
-class MANSIONOFDARKNESS_API UTriggerComponent : public UActorComponent
+class MANSIONOFDARKNESS_API UTriggerComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
-private:
-	bool isOn = false;
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	virtual void Activate(bool bReset = false);
+	virtual void Deactivate();
 
 protected:
-	bool GetTriggerOn();
 	void SetTrigger(bool isOn);
+
 };
