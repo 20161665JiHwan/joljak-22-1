@@ -1,4 +1,4 @@
-#include "MansionOfDarkness.h"
+#include "MOD/MansionOfDarkness.h"
 #include "Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, MansionOfDarkness, "MansionOfDarkness" );
