@@ -44,8 +44,6 @@ void UHighlightEventComponent::StartEvent()
 
 void UHighlightEventComponent::EndEvent()
 {
-	UE_LOG(TriggerEvent, Log, TEXT("highlight end!"));
-
 	for (UStaticMeshComponent* comp : highlights)
 	{
 		comp->SetVisibility(false, true);

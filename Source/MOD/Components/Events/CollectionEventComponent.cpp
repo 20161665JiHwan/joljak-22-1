@@ -1,4 +1,5 @@
 #include "CollectionEventComponent.h"
+#include "MOD/MansionOfDarkness.h"
 
 #include "Kismet/GameplayStatics.h"
 
