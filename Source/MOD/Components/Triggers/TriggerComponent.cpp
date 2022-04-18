@@ -33,10 +33,27 @@ void UTriggerComponent::SetTrigger(bool setOn)
 {
 	UE_LOG(TriggerEvent, Log, TEXT("%s is %s!"), *(GetFName().ToString()), (setOn ? TEXT("true") : TEXT("false")));
 
+	TArray<UEventComponent*> eventComps;
+
+	TArray<UEventComponent*>& events = reinterpret_cast<TArray<UEventComponent*>&>(eventComps);
+	events.Sort([](const UEventComponent& a, const UEventComponent& b) {return a.priority < b.priority; });
+
+	for (UEventComponent* eventComp : events)
+	{
+		if (setOn)
+		{
+			UE_LOG(TriggerEvent, Log, TEXT("%s Start!"), *(eventComp->GetFName().ToString()));
+			eventComp->StartEvent();
+		}
+		else
+		{
+			UE_LOG(TriggerEvent, Log, TEXT("%s End!"), *(eventComp->GetFName().ToString()));
+			eventComp->EndEvent();
+		}
+	}
+
 	TArray<USceneComponent*> sceneComps;
 	GetChildrenComponents(false, sceneComps);
-
-	TArray<UEventComponent*> eventComps;
 
 	for (USceneComponent* sceneComp : sceneComps)
 	{
@@ -59,23 +76,6 @@ void UTriggerComponent::SetTrigger(bool setOn)
 			{
 				eventComps.Add(eventComp);
 			}
-		}
-	}
-	
-	TArray<UEventComponent*>& events = reinterpret_cast<TArray<UEventComponent*>&>(eventComps);
-	events.Sort([](const UEventComponent& a, const UEventComponent& b) {return a.priority < b.priority; });
-
-	for (UEventComponent* eventComp : events)
-	{
-		if (setOn)
-		{
-			UE_LOG(TriggerEvent, Log, TEXT("%s Start!"), *(eventComp->GetFName().ToString()));
-			eventComp->StartEvent();
-		}
-		else
-		{
-			UE_LOG(TriggerEvent, Log, TEXT("%s End!"), *(eventComp->GetFName().ToString()));
-			eventComp->EndEvent();
 		}
 	}
 }
