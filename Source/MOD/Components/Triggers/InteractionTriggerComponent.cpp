@@ -8,7 +8,7 @@
 
 void UInteractionTriggerComponent::Activate(bool bReset)
 {
-	Super::Activate();
+	Super::Activate(bReset);
 
 	UE_LOG(TriggerEvent, Log, TEXT("Interaction Activate!"));
 

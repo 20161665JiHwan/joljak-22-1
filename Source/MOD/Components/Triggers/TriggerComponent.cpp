@@ -7,7 +7,7 @@ void UTriggerComponent::BeginPlay()
 {
 	TArray<USceneComponent*> sceneComps;
 	GetParentComponents(sceneComps);
-	
+
 	for (USceneComponent* sceneComp : sceneComps)
 	{
 		UTriggerComponent* trigger = Cast<UTriggerComponent>(sceneComp);
@@ -37,31 +37,15 @@ void UTriggerComponent::SetTrigger(bool setOn)
 	GetChildrenComponents(false, sceneComps);
 
 	TArray<UEventComponent*> eventComps;
-
 	for (USceneComponent* sceneComp : sceneComps)
 	{
-		UTriggerComponent* trigger = Cast<UTriggerComponent>(sceneComp);
-		if (trigger)
+		UEventComponent* eventComp = Cast<UEventComponent>(sceneComp);
+		if (eventComp)
 		{
-			if (setOn)
-			{
-				trigger->Activate();
-			}
-			else
-			{
-				trigger->Deactivate();
-			}
-		}
-		else
-		{
-			UEventComponent* eventComp = Cast<UEventComponent>(sceneComp);
-			if (eventComp)
-			{
-				eventComps.Add(eventComp);
-			}
+			eventComps.Add(eventComp);
 		}
 	}
-	
+
 	TArray<UEventComponent*>& events = reinterpret_cast<TArray<UEventComponent*>&>(eventComps);
 	events.Sort([](const UEventComponent& a, const UEventComponent& b) {return a.priority < b.priority; });
 
@@ -76,6 +60,22 @@ void UTriggerComponent::SetTrigger(bool setOn)
 		{
 			UE_LOG(TriggerEvent, Log, TEXT("%s End!"), *(eventComp->GetFName().ToString()));
 			eventComp->EndEvent();
+		}
+	}
+
+	for (USceneComponent* sceneComp : sceneComps)
+	{
+		UTriggerComponent* trigger = Cast<UTriggerComponent>(sceneComp);
+		if (trigger)
+		{
+			if (setOn)
+			{
+				trigger->Activate();
+			}
+			else
+			{
+				trigger->Deactivate();
+			}
 		}
 	}
 }
