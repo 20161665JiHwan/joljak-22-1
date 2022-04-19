@@ -36,12 +36,6 @@ AMODCharacter::AMODCharacter()
 	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
-	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
-	FP_Gun->SetOnlyOwnerSee(false);
-	FP_Gun->bCastDynamicShadow = false;
-	FP_Gun->CastShadow = false;
-	FP_Gun->SetupAttachment(RootComponent);
-
 	Health = 100;
 	MaxHealth = 100;
 
@@ -52,7 +46,16 @@ void AMODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	FActorSpawnParameters param;
+	param.Owner = this;
+	param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	flash = GetWorld()->SpawnActor<AActor>(flashBP, GetMesh1P()->GetSocketTransform("GripPoint"), param);
+
+	if (IsValid(flash))
+	{
+		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
+		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
+	}
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)

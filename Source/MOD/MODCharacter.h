@@ -22,10 +22,13 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* Mesh1P;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* FP_Gun;
+	AActor* flash;
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
+		TSubclassOf<class AActor> flashBP;
+
+	UFUNCTION(BlueprintCallable)
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 
 	// 카메라
