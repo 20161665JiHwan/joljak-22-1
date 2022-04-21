@@ -14,6 +14,9 @@ public:
 	virtual void Deactivate() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TriggerP)
+		bool isContain;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TriggerP)
 		TArray<FText> itemName;
 
 private:
