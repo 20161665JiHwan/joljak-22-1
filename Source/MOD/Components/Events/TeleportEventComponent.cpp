@@ -14,7 +14,7 @@ void UTeleportEventComponent::StartEvent()
 
 		if (temp->GetKey() == teleportKey)
 		{
-			GetWorld()->GetFirstPlayerController()->GetPawn()->SetActorLocationAndRotation(actor->GetActorLocation(), actor->GetActorRotation());
+			GetWorld()->GetFirstPlayerController()->GetPawn()->SetActorLocationAndRotation(temp->GetActorLocation(), temp->GetActorRotation());
 
 			return;
 		}
