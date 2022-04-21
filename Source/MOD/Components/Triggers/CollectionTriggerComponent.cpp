@@ -28,8 +28,18 @@ void UCollectionTriggerComponent::Deactivate()
 void UCollectionTriggerComponent::CheckCollection()
 {
 	UE_LOG(TriggerEvent, Log, TEXT("collection check!"));
-	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	player->GetInventory()->OnInventoryUpdated.Remove(this, FName("CheckCollection"));
-	SetTrigger(player->GetInventory()->FindCollectionItem(itemName));
 
+	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	bool isActive = true;
+
+	for (FText item : itemName)
+	{
+		if (player->GetInventory()->FindCollectionItem(item) == !isContain)
+		{
+			isActive = false;
+		}
+	}
+
+	SetTrigger(isActive);
 }
