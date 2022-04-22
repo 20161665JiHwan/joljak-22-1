@@ -33,13 +33,9 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* CameraComponent;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UInventoryComponent* Inventory;
 public:
 	FORCEINLINE class UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 
-	class UInventoryComponent* GetInventory();
-	
 	// 조작
 private:
 	UInputComponent* inputComponent;
@@ -67,6 +63,7 @@ protected:
 
 	void OpenInventory();
 
+	// 스탯
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int Health;
@@ -74,9 +71,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int MaxHealth;
 
+
+	// 인벤토리
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
+		class UInventoryComponent* Inventory;
+
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> InventoryWindowClass;
 
 	class UUserWidget* InventoryWindowObject;
+
+	class UInventoryComponent* GetInventory();
+
 };

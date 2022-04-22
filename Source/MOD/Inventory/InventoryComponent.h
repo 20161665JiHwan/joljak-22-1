@@ -12,21 +12,14 @@ class MANSIONOFDARKNESS_API UInventoryComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	UInventoryComponent();
-
-	virtual void BeginPlay() override;
-
 	bool AddItem(class UItem* Item);
 	bool RemoveItem(class UItem* Item);
 
 	UFUNCTION(BlueprintCallable)
-		bool GetCollectionItemFinded(FText ItemName);
+		bool GetCollectionItemFinded(UItem* item);
 
 	UFUNCTION(BlueprintCallable)
-		void SetCollectionItemFind(FText ItemName);
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Instanced)
-		TArray<class UItem*> KeyItems;
+		void SetCollectionItemFind(UItem* item);
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 		FOnInventoryUpdated OnInventoryUpdated;

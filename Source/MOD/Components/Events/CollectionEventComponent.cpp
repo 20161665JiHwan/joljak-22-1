@@ -21,7 +21,7 @@ void UCollectionEventComponent::BeginPlay()
 void UCollectionEventComponent::StartEvent()
 {
 	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	player->GetInventory()->SetCollectionItemFind(item->ItemDisplayName);
+	player->GetInventory()->SetCollectionItemFind(item);
 }
 
 void UCollectionEventComponent::EndEvent()

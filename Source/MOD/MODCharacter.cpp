@@ -122,7 +122,6 @@ void AMODCharacter::OpenInventory()
 	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	UE_LOG(LogTemp, Log, TEXT("Log Message1"));
-	InventoryWindowClass = LoadClass<UUserWidget>(nullptr, TEXT("/Game/Yongchan/UI_Inventory.UI_Inventory_C"));
 	InventoryWindowObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), InventoryWindowClass);
 	if (InventoryWindowObject)
 	{
