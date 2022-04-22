@@ -5,8 +5,6 @@
 #include "MOD/Inventory/InventoryWindow.h"
 #include "MODCharacter.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FGetCollectionItem, AMODCharacter, GetCollectionItem, FString, ItemName);
-
 UCLASS(config = Game)
 class AMODCharacter : public ACharacter
 {
@@ -76,18 +74,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int MaxHealth;
 
-	UFUNCTION(BlueprintCallable, Category = "Items")
-		void UseItem(class UItem* Item);
-
 public:
-
-	UPROPERTY(BlueprintAssignable)
-		FGetCollectionItem GetCollectionItem;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> InventoryWindowClass;
+
 	class UUserWidget* InventoryWindowObject;
-
-private:
-
 };

@@ -112,15 +112,6 @@ void AMODCharacter::StopSprinting()
 	GetCharacterMovement()->MaxWalkSpeed /= SprintRate;
 }
 
-void AMODCharacter::UseItem(class UItem* Item)
-{
-	if (Item)
-	{
-		Item->Use(this);
-		Item->OnUse(this);
-	}
-}
-
 UInventoryComponent* AMODCharacter::GetInventory()
 {
 	return Inventory;

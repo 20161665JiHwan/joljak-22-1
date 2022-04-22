@@ -35,7 +35,7 @@ void UCollectionTriggerComponent::CheckCollection()
 
 	for (FText item : itemName)
 	{
-		if (player->GetInventory()->FindCollectionItem(item) == !isContain)
+		if (player->GetInventory()->GetCollectionItemFinded(item) == !isContain)
 		{
 			isActive = false;
 		}
