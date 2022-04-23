@@ -1,21 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Item.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+enum class EItemType : uint8
+{
+	TE_OptionA UMETA(DisplayName = "MagicSign"),
+	TE_OptionB UMETA(DisplayName = "Hint"),
+	TE_OptionC UMETA(DisplayName = "Key"),
+};
+
 UCLASS(Abstract, BlueprintType, Blueprintable, EditInlineNew, DefaultToInstanced)
 class MANSIONOFDARKNESS_API UItem : public UObject
 {
 	GENERATED_BODY()
 	
 public:
-
 	UItem();
 
 	virtual class UWorld* GetWorld() const { return World; }
@@ -24,10 +26,7 @@ public:
 		class UWorld* World;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
-		FText ItemTypeText;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
-		class UStaticMesh* PickupMesh;
+		EItemType ItemTypeText;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 		class UTexture2D* Thumbnail;
@@ -43,9 +42,4 @@ public:
 
 	UPROPERTY()
 		class UInventoryComponent* OwningInventory;
-
-	virtual void Use(class AMODCharacter* Character);
-
-	UFUNCTION(BlueprintImplementableEvent)
-		void OnUse(class AMODCharacter* Character);
 };

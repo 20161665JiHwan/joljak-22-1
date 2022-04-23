@@ -1,29 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "MOD/Inventory/InventoryComponent.h"
-#include "MOD/Inventory/Item.h"
-#include "MOD/MODCharacter.h"
+
 #include "Kismet/GameplayStatics.h"
-#include "Math/RandomStream.h"
 
-// Sets default values for this component's properties
-UInventoryComponent::UInventoryComponent()
-{
-	
-}
-
-
-// Called when the game starts
-void UInventoryComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	for (auto& Item : KeyItems)
-	{
-		AddItem(Item);
-	}
-}
+#include "MOD/MODCharacter.h"
+#include "MOD/Inventory/Item.h"
 
 bool UInventoryComponent::AddItem(class UItem* Item)
 {
@@ -50,14 +30,26 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 	return false;
 }
 
-bool UInventoryComponent::FindCollectionItem(FText ItemName)
+bool UInventoryComponent::GetCollectionItemFinded(UItem* item)
 {
 	for (int i = 0; i < Items.Num(); i++)
 	{
-		if (Items[i]->ItemDisplayName.EqualTo(ItemName) && (Items[i]->IsFind == true))
+		if (Items[i]->ItemDisplayName.EqualTo(item->ItemDisplayName) && (Items[i]->IsFind == true))
 		{
 			return true;
 		}
 	}
 	return false;
+}
+
+void UInventoryComponent::SetCollectionItemFind(UItem* item)
+{
+	for (int i = 0; i < Items.Num(); i++)
+	{
+		if (Items[i]->ItemDisplayName.EqualTo(item->ItemDisplayName))
+		{
+			Items[i]->IsFind = true;
+			return;
+		}
+	}
 }
