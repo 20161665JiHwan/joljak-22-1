@@ -17,7 +17,7 @@ public:
 		bool isContain;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TriggerP)
-		TArray<class UItem*> items;
+		TArray<TSubclassOf<class UItem>> items;
 
 private:
 	UFUNCTION()
