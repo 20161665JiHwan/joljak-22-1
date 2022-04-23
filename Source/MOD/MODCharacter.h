@@ -5,8 +5,6 @@
 #include "MOD/Inventory/InventoryWindow.h"
 #include "MODCharacter.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FGetCollectionItem, AMODCharacter, GetCollectionItem, FString, ItemName);
-
 UCLASS(config = Game)
 class AMODCharacter : public ACharacter
 {
@@ -35,13 +33,9 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* CameraComponent;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UInventoryComponent* Inventory;
 public:
 	FORCEINLINE class UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 
-	class UInventoryComponent* GetInventory();
-	
 	// 조작
 private:
 	UInputComponent* inputComponent;
@@ -69,6 +63,7 @@ protected:
 
 	void OpenInventory();
 
+	// 스탯
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int Health;
@@ -76,18 +71,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int MaxHealth;
 
-	UFUNCTION(BlueprintCallable, Category = "Items")
-		void UseItem(class UItem* Item);
+
+	// 인벤토리
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
+		class UInventoryComponent* Inventory;
 
 public:
-
-	UPROPERTY(BlueprintAssignable)
-		FGetCollectionItem GetCollectionItem;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> InventoryWindowClass;
+
 	class UUserWidget* InventoryWindowObject;
 
-private:
+	class UInventoryComponent* GetInventory();
 
 };

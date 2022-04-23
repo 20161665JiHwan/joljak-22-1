@@ -9,10 +9,13 @@ class MANSIONOFDARKNESS_API UCollectionEventComponent : public UEventComponent
 {
 	GENERATED_BODY()
 
+protected:
+	virtual void BeginPlay() override;
+
 public:
 	virtual void StartEvent() override;
 	virtual void EndEvent() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Event)
-		FString itemName;
+		class UItem* item;
 };
