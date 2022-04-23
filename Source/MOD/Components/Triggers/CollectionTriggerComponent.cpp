@@ -5,6 +5,7 @@
 
 #include "MOD/MODCharacter.h"
 #include "MOD/Inventory/InventoryComponent.h"
+#include "MOD/Inventory/Item.h"
 
 void UCollectionTriggerComponent::Activate(bool bReset)
 {
@@ -33,9 +34,9 @@ void UCollectionTriggerComponent::CheckCollection()
 
 	bool isActive = true;
 
-	for (UItem* item : items)
+	for (TSubclassOf<class UItem> item : items)
 	{
-		if (player->GetInventory()->GetCollectionItemFinded(item) == !isContain)
+		if (player->GetInventory()->GetCollectionItemFinded(item.GetDefaultObject()) == !isContain)
 		{
 			isActive = false;
 		}
