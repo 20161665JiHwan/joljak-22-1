@@ -56,6 +56,15 @@ void AMODCharacter::BeginPlay()
 		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
 		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
 	}
+
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	MagicsignWidgetObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), MagicsignWidgetClass);
+	if (MagicsignWidgetObject)
+	{
+		MagicsignWidgetObject->AddToViewport();
+		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	}
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -72,8 +81,9 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMODCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::StopSprinting);
-	
+
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
+	PlayerInputComponent->BindAction("Stat", IE_Pressed, this, &AMODCharacter::OpenStatWindow);
 }
 
 UInputComponent* AMODCharacter::GetInputComponent()
@@ -127,6 +137,19 @@ void AMODCharacter::OpenInventory()
 	{
 		UE_LOG(LogTemp, Log, TEXT("Log Message2"));
 		InventoryWindowObject->AddToViewport();
+		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		controller->OpenWindow();
+	}
+}
+
+void AMODCharacter::OpenStatWindow()
+{
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	StatWindowObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), StatWindowClass);
+	if (StatWindowObject)
+	{
+		StatWindowObject->AddToViewport();
 		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		controller->OpenWindow();
 	}
