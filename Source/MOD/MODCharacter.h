@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "MOD/Inventory/InventoryWindow.h"
+#include "Blueprint/UserWidget.h"
 #include "MODCharacter.generated.h"
 
 UCLASS(config = Game)
@@ -92,4 +93,17 @@ public:
 
 	class UInventoryComponent* GetInventory();
 
+	// 텍스트 이벤트
+private:
+	UPROPERTY(EditAnywhere, Category = Event, meta = (AllowPrivateAcess = true))
+		TSubclassOf<class UUserWidget> textWidgetClass;
+	class UUserWidget* textWidgetObject;
+
+	FTimerHandle timerHandle;
+
+public:
+	void PopTextEvent(FText message, float seconds);
+	void PushTextEvent();
+
+	void EndTimerTextEvent();
 };

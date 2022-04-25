@@ -15,6 +15,8 @@
 #include "MOD/Inventory/InventoryComponent.h"
 #include "MOD/Inventory/InventoryWindow.h"
 
+#include "MOD/TextEventWidget.h"
+
 AMODCharacter::AMODCharacter()
 {
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -63,7 +65,6 @@ void AMODCharacter::BeginPlay()
 	if (MagicsignWidgetObject)
 	{
 		MagicsignWidgetObject->AddToViewport();
-		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	}
 }
 
@@ -152,5 +153,42 @@ void AMODCharacter::OpenStatWindow()
 		StatWindowObject->AddToViewport();
 		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		controller->OpenWindow();
+	}
+}
+
+void AMODCharacter::PopTextEvent(FText message, float seconds)
+{
+	if (textWidgetObject)
+	{
+		Cast<UTextEventWidget>(textWidgetObject)->SetText.Broadcast(message);
+		GetWorldTimerManager().SetTimer(timerHandle, this, &AMODCharacter::EndTimerTextEvent, seconds);
+	}
+	else
+	{
+		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(this, 0));
+		textWidgetObject = CreateWidget<UUserWidget>(controller, textWidgetClass);
+		if (textWidgetObject)
+		{
+			Cast<UTextEventWidget>(textWidgetObject)->SetText.Broadcast(message);
+			textWidgetObject->AddToViewport();
+
+			GetWorldTimerManager().SetTimer(timerHandle, this, &AMODCharacter::EndTimerTextEvent, seconds);
+		}
+	}
+}
+
+void AMODCharacter::PushTextEvent()
+{
+	//if (timerHandle)
+	//{
+	//	GetWorldTimerManager().ClearTimer(timerHandle);
+	//}
+}
+
+void AMODCharacter::EndTimerTextEvent()
+{
+	if (textWidgetObject)
+	{
+		textWidgetObject->RemoveFromViewport();
 	}
 }
