@@ -17,7 +17,6 @@ class MANSIONOFDARKNESS_API UCharacterStatsWiindow : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
 	virtual void NativeConstruct() override;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
