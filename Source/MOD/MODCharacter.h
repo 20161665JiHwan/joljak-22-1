@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "MOD/Inventory/InventoryWindow.h"
+#include "Blueprint/UserWidget.h"
 #include "MODCharacter.generated.h"
 
 UCLASS(config = Game)
@@ -62,6 +63,7 @@ protected:
 	void StopSprinting();
 
 	void OpenInventory();
+	void OpenStatWindow();
 
 	// 스탯
 public:
@@ -71,6 +73,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int MaxHealth;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> StatWindowClass;
+	class UUserWidget* StatWindowObject;
 
 	// 인벤토리
 private:
@@ -80,9 +85,25 @@ private:
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> InventoryWindowClass;
-
 	class UUserWidget* InventoryWindowObject;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> MagicsignWidgetClass;
+	class UUserWidget* MagicsignWidgetObject;
 
 	class UInventoryComponent* GetInventory();
 
+	// 텍스트 이벤트
+private:
+	UPROPERTY(EditAnywhere, Category = Event, meta = (AllowPrivateAcess = true))
+		TSubclassOf<class UUserWidget> textWidgetClass;
+	class UUserWidget* textWidgetObject;
+
+	FTimerHandle timerHandle;
+
+public:
+	void PopTextEvent(FText message, float seconds);
+	void PushTextEvent();
+
+	void EndTimerTextEvent();
 };

@@ -15,6 +15,8 @@
 #include "MOD/Inventory/InventoryComponent.h"
 #include "MOD/Inventory/InventoryWindow.h"
 
+#include "MOD/TextEventWidget.h"
+
 AMODCharacter::AMODCharacter()
 {
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -56,6 +58,14 @@ void AMODCharacter::BeginPlay()
 		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
 		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
 	}
+
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	MagicsignWidgetObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), MagicsignWidgetClass);
+	if (MagicsignWidgetObject)
+	{
+		MagicsignWidgetObject->AddToViewport();
+	}
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -72,8 +82,9 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMODCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::StopSprinting);
-	
+
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
+	PlayerInputComponent->BindAction("Stat", IE_Pressed, this, &AMODCharacter::OpenStatWindow);
 }
 
 UInputComponent* AMODCharacter::GetInputComponent()
@@ -129,5 +140,55 @@ void AMODCharacter::OpenInventory()
 		InventoryWindowObject->AddToViewport();
 		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		controller->OpenWindow();
+	}
+}
+
+void AMODCharacter::OpenStatWindow()
+{
+	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	StatWindowObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), StatWindowClass);
+	if (StatWindowObject)
+	{
+		StatWindowObject->AddToViewport();
+		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		controller->OpenWindow();
+	}
+}
+
+void AMODCharacter::PopTextEvent(FText message, float seconds)
+{
+	if (textWidgetObject)
+	{
+		Cast<UTextEventWidget>(textWidgetObject)->SetText.Broadcast(message);
+		GetWorldTimerManager().SetTimer(timerHandle, this, &AMODCharacter::EndTimerTextEvent, seconds);
+	}
+	else
+	{
+		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(this, 0));
+		textWidgetObject = CreateWidget<UUserWidget>(controller, textWidgetClass);
+		if (textWidgetObject)
+		{
+			Cast<UTextEventWidget>(textWidgetObject)->SetText.Broadcast(message);
+			textWidgetObject->AddToViewport();
+
+			GetWorldTimerManager().SetTimer(timerHandle, this, &AMODCharacter::EndTimerTextEvent, seconds);
+		}
+	}
+}
+
+void AMODCharacter::PushTextEvent()
+{
+	//if (timerHandle)
+	//{
+	//	GetWorldTimerManager().ClearTimer(timerHandle);
+	//}
+}
+
+void AMODCharacter::EndTimerTextEvent()
+{
+	if (textWidgetObject)
+	{
+		textWidgetObject->RemoveFromViewport();
 	}
 }
