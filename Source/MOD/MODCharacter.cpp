@@ -169,9 +169,9 @@ void AMODCharacter::PopTextEvent(FText message, float seconds)
 		textWidgetObject = CreateWidget<UUserWidget>(controller, textWidgetClass);
 		if (textWidgetObject)
 		{
-			Cast<UTextEventWidget>(textWidgetObject)->SetText.Broadcast(message);
 			textWidgetObject->AddToViewport();
 
+			Cast<UTextEventWidget>(textWidgetObject)->SetText.Broadcast(message);
 			GetWorldTimerManager().SetTimer(timerHandle, this, &AMODCharacter::EndTimerTextEvent, seconds);
 		}
 	}
@@ -179,7 +179,8 @@ void AMODCharacter::PopTextEvent(FText message, float seconds)
 
 void AMODCharacter::PushTextEvent()
 {
-	//if (timerHandle)
+	//if (timerHandle.IsValid() &&
+	//	GetWorldTimerManager().IsTimerActive(timerHandle))
 	//{
 	//	GetWorldTimerManager().ClearTimer(timerHandle);
 	//}
@@ -190,5 +191,8 @@ void AMODCharacter::EndTimerTextEvent()
 	if (textWidgetObject)
 	{
 		textWidgetObject->RemoveFromViewport();
+		textWidgetObject = nullptr;
+
+		GetWorldTimerManager().ClearTimer(timerHandle);
 	}
 }
