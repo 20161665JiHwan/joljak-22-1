@@ -17,6 +17,8 @@ protected:
 public:
 	AMODCharacter();
 
+	virtual void Tick(float DeltaTime) override;
+
 private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* Mesh1P;
@@ -41,14 +43,38 @@ public:
 private:
 	UInputComponent* inputComponent;
 
+	float DefaultSpeed;
+
+	FTimerHandle staminaDelayHandle;
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Walking")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> StaminaWidgetClass;
+	class UUserWidget* StaminaWidgetObject;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaMax;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaCur;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaRestore;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaConsume;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
 		float SprintRate;
+
+	bool canSprint = true;
+	bool canStaminaRestore = true;
+	bool isSprint = false;
+	bool isMove = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+	float StaminaRestoreDelay;
 
 	UInputComponent* GetInputComponent();
 
@@ -58,8 +84,13 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void TurnAtRate(float Rate);
+	void Move();
+	void StopMoving();
 
-	void Sprint();
+	void PressSprint();
+	void ReleaseSprint();
+
+	void StartSprint();
 	void StopSprinting();
 
 	void OpenInventory();

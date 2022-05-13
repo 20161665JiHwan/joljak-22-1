@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "GenericPlatform/GenericPlatformMath.h"
 
 #include "MOD/Controllers/PlayerCharacterController.h"
 #include "MOD/Components/Triggers/InteractionTriggerComponent.h"
@@ -38,10 +39,14 @@ AMODCharacter::AMODCharacter()
 	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
+	DefaultSpeed = GetCharacterMovement()->MaxWalkSpeed;
+
 	Health = 100;
 	MaxHealth = 100;
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void AMODCharacter::BeginPlay()
@@ -66,6 +71,51 @@ void AMODCharacter::BeginPlay()
 	{
 		MagicsignWidgetObject->AddToViewport();
 	}
+
+	StaminaWidgetObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), StaminaWidgetClass);
+	if (StaminaWidgetObject)
+	{
+		StaminaWidgetObject->AddToViewport();
+	}
+}
+
+void AMODCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (canSprint &&
+		isMove &&
+		isSprint)
+	{
+		if (!StaminaWidgetObject->IsInViewport())
+		{
+			StaminaWidgetObject->AddToViewport();
+		}
+		StaminaCur -= StaminaConsume * DeltaTime;
+		StaminaCur = FGenericPlatformMath::Max(StaminaCur, 0.0f);
+	}
+	else if (canStaminaRestore)
+	{
+		if (!StaminaWidgetObject->IsInViewport())
+		{
+			StaminaWidgetObject->AddToViewport();
+		}
+		StaminaCur += StaminaRestore * DeltaTime;
+		StaminaCur = FGenericPlatformMath::Min(StaminaCur, StaminaMax);
+	}
+
+	if (StaminaCur <= 0.0f &&
+		canStaminaRestore)
+	{
+		StopSprinting();
+		canSprint = false;
+	}
+
+	if (StaminaWidgetObject->IsInViewport() &&
+		StaminaCur == StaminaMax)
+	{
+		StaminaWidgetObject->RemoveFromViewport();
+	}
 }
 
 void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -76,12 +126,15 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMODCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMODCharacter::MoveRight);
 
+	PlayerInputComponent->BindAction("MoveAction", IE_Pressed, this, &AMODCharacter::Move);
+	PlayerInputComponent->BindAction("MoveAction", IE_Released, this, &AMODCharacter::StopMoving);
+
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("TurnRate", this, &AMODCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
-	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMODCharacter::Sprint);
-	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::StopSprinting);
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMODCharacter::PressSprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::ReleaseSprint);
 
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
 	PlayerInputComponent->BindAction("Stat", IE_Pressed, this, &AMODCharacter::OpenStatWindow);
@@ -113,14 +166,63 @@ void AMODCharacter::MoveRight(float Value)
 	}
 }
 
-void AMODCharacter::Sprint()
+void AMODCharacter::Move()
 {
-	GetCharacterMovement()->MaxWalkSpeed *= SprintRate;
+	isMove = true;
+	if (isSprint)
+	{
+		StartSprint();
+	}
+}
+
+void AMODCharacter::StopMoving()
+{
+	isMove = false;
+	if (isSprint)
+	{
+		StopSprinting();
+	}
+	canSprint = true;
+}
+
+void AMODCharacter::PressSprint()
+{
+	isSprint = true;
+	if (StaminaCur > 0.0f)
+	{
+		StartSprint();
+	}
+}
+
+void AMODCharacter::ReleaseSprint()
+{
+	isSprint = false;
+	if (isMove)
+	{
+		StopSprinting();
+	}
+	canSprint = true;
+}
+
+void AMODCharacter::StartSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed * SprintRate;
 }
 
 void AMODCharacter::StopSprinting()
 {
-	GetCharacterMovement()->MaxWalkSpeed /= SprintRate;
+	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed;
+
+	if (canSprint)
+	{
+		canStaminaRestore = false;
+		UE_LOG(LogTemp, Log, TEXT("canStaminaRestore = false"));
+		GetWorldTimerManager().SetTimer(staminaDelayHandle, FTimerDelegate::CreateLambda([&]()
+			{
+				UE_LOG(LogTemp, Log, TEXT("canStaminaRestore = true"));
+				canStaminaRestore = true;
+			}), StaminaRestoreDelay, false);
+	}
 }
 
 UInventoryComponent* AMODCharacter::GetInventory()
