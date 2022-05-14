@@ -87,19 +87,11 @@ void AMODCharacter::Tick(float DeltaTime)
 		isMove &&
 		isSprint)
 	{
-		if (!StaminaWidgetObject->IsInViewport())
-		{
-			StaminaWidgetObject->AddToViewport();
-		}
 		StaminaCur -= StaminaConsume * DeltaTime;
 		StaminaCur = FGenericPlatformMath::Max(StaminaCur, 0.0f);
 	}
 	else if (canStaminaRestore)
 	{
-		if (!StaminaWidgetObject->IsInViewport())
-		{
-			StaminaWidgetObject->AddToViewport();
-		}
 		StaminaCur += StaminaRestore * DeltaTime;
 		StaminaCur = FGenericPlatformMath::Min(StaminaCur, StaminaMax);
 	}
@@ -111,10 +103,10 @@ void AMODCharacter::Tick(float DeltaTime)
 		canSprint = false;
 	}
 
-	if (StaminaWidgetObject->IsInViewport() &&
+	if (StaminaWidgetObject->IsConstructed() &&
 		StaminaCur == StaminaMax)
 	{
-		StaminaWidgetObject->RemoveFromViewport();
+		StaminaWidgetObject->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
@@ -207,6 +199,11 @@ void AMODCharacter::ReleaseSprint()
 void AMODCharacter::StartSprint()
 {
 	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed * SprintRate;
+
+	if (StaminaWidgetObject->IsConstructed())
+	{
+		StaminaWidgetObject->SetVisibility(ESlateVisibility::Visible);
+	}
 }
 
 void AMODCharacter::StopSprinting()
