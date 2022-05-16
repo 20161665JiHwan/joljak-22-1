@@ -1,7 +1,11 @@
 #include "OverlapTriggerComponent.h"
 #include "MOD/MansionOfDarkness.h"
 
+#include "Kismet/GameplayStatics.h"
+
 #include "Components/ShapeComponent.h"
+
+#include "MOD/MODCharacter.h"
 
 void UOverlapTriggerComponent::BeginPlay()
 {
@@ -50,12 +54,20 @@ void UOverlapTriggerComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedCom
 {
 	UE_LOG(TriggerEvent, Log, TEXT("Overlap Begin!"));
 
-	SetTrigger(true);
+	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if (OtherActor == player)
+	{
+		SetTrigger(true);
+	}
 }
 
 void UOverlapTriggerComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	UE_LOG(TriggerEvent, Log, TEXT("Overlap End!"));
 
-	SetTrigger(false);
+	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if (OtherActor == player)
+	{
+		SetTrigger(false);
+	}
 }

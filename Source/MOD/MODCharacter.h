@@ -30,7 +30,7 @@ public:
 		TSubclassOf<class AActor> flashBP;
 
 	UFUNCTION(BlueprintCallable)
-	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+		USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 
 	// 카메라
 private:
@@ -74,7 +74,7 @@ public:
 	bool isMove = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
-	float StaminaRestoreDelay;
+		float StaminaRestoreDelay;
 
 	UInputComponent* GetInputComponent();
 
@@ -137,4 +137,18 @@ public:
 	void PushTextEvent();
 
 	void EndTimerTextEvent();
+
+	// 상호작용 트리거
+private:
+	UPROPERTY(EditAnywhere, Category = Trigger, meta = (AllowPrivateAcess = true))
+		TSubclassOf<class UUserWidget> progressWidgetClass;
+	class UUserWidget* progressWidgetObject;
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+		float progress = 0.0f;
+
+	void SetCanInteraction(bool value);
+	void Interaction();
+	void StopInteraction();
 };

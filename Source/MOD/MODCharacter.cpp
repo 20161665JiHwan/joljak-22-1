@@ -77,6 +77,13 @@ void AMODCharacter::BeginPlay()
 	{
 		StaminaWidgetObject->AddToViewport();
 	}
+
+	progressWidgetObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), progressWidgetClass);
+	if (progressWidgetObject)
+	{
+		progressWidgetObject->AddToViewport();
+		progressWidgetObject->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void AMODCharacter::Tick(float DeltaTime)
@@ -130,6 +137,9 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
 	PlayerInputComponent->BindAction("Stat", IE_Pressed, this, &AMODCharacter::OpenStatWindow);
+
+	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
+	PlayerInputComponent->BindAction("Interaction", IE_Released, this, &AMODCharacter::StopInteraction);
 }
 
 UInputComponent* AMODCharacter::GetInputComponent()
@@ -294,4 +304,26 @@ void AMODCharacter::EndTimerTextEvent()
 
 		GetWorldTimerManager().ClearTimer(timerHandle);
 	}
+}
+
+void AMODCharacter::SetCanInteraction(bool value)
+{
+	if (value)
+	{
+		progressWidgetObject->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		progressWidgetObject->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void AMODCharacter::Interaction()
+{
+	
+}
+
+void AMODCharacter::StopInteraction()
+{
+
 }
