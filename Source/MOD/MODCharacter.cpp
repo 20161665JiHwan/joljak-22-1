@@ -308,13 +308,16 @@ void AMODCharacter::EndTimerTextEvent()
 
 void AMODCharacter::SetCanInteraction(bool value)
 {
-	if (value)
+	if (progressWidgetObject)
 	{
-		progressWidgetObject->SetVisibility(ESlateVisibility::Visible);
-	}
-	else
-	{
-		progressWidgetObject->SetVisibility(ESlateVisibility::Hidden);
+		if (value)
+		{
+			progressWidgetObject->SetVisibility(ESlateVisibility::Visible);
+		}
+		else
+		{
+			progressWidgetObject->SetVisibility(ESlateVisibility::Hidden);
+		}
 	}
 }
 
