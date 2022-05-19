@@ -10,34 +10,6 @@ void APlayerCharacterController::OnPossess(APawn* aPawn)
 
 }
 
-UUserWidget* APlayerCharacterController::ChangeEventWidget(TSubclassOf<UUserWidget> widgetClass)
-{
-	if (eventWidget != nullptr)
-	{
-		eventWidget->RemoveFromViewport();
-		eventWidget = nullptr;
-
-		GetPawn<AMODCharacter>()->EnableInput(this);
-	}
-
-	if (widgetClass == nullptr)
-	{
-		return nullptr;
-	}
-
-	eventWidget = CreateWidget<UUserWidget>(this, widgetClass);
-	if (eventWidget == nullptr)
-	{
-		return nullptr;
-	}
-
-	eventWidget->AddToViewport();
-
-	GetPawn<AMODCharacter>()->DisableInput(this);
-
-	return eventWidget;
-}
-
 void APlayerCharacterController::CloseWindow()
 {
 	SetShowMouseCursor(false);
