@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "MOD/Inventory/InventoryWindow.h"
+#include "Blueprint/UserWidget.h"
 #include "MODCharacter.generated.h"
 
 UCLASS(config = Game)
@@ -15,6 +16,8 @@ protected:
 
 public:
 	AMODCharacter();
+
+	virtual void Tick(float DeltaTime) override;
 
 private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -40,14 +43,38 @@ public:
 private:
 	UInputComponent* inputComponent;
 
+	float DefaultSpeed;
+
+	FTimerHandle staminaDelayHandle;
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Walking")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> StaminaWidgetClass;
+	class UUserWidget* StaminaWidgetObject;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaMax;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaCur;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaRestore;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+		float StaminaConsume;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
 		float SprintRate;
+
+	bool canSprint = true;
+	bool canStaminaRestore = true;
+	bool isSprint = false;
+	bool isMove = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
+	float StaminaRestoreDelay;
 
 	UInputComponent* GetInputComponent();
 
@@ -57,11 +84,17 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void TurnAtRate(float Rate);
+	void Move();
+	void StopMoving();
 
-	void Sprint();
+	void PressSprint();
+	void ReleaseSprint();
+
+	void StartSprint();
 	void StopSprinting();
 
 	void OpenInventory();
+	void OpenStatWindow();
 
 	// 스탯
 public:
@@ -71,6 +104,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int MaxHealth;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> StatWindowClass;
+	class UUserWidget* StatWindowObject;
 
 	// 인벤토리
 private:
@@ -80,9 +116,25 @@ private:
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> InventoryWindowClass;
-
 	class UUserWidget* InventoryWindowObject;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> MagicsignWidgetClass;
+	class UUserWidget* MagicsignWidgetObject;
 
 	class UInventoryComponent* GetInventory();
 
+	// 텍스트 이벤트
+private:
+	UPROPERTY(EditAnywhere, Category = Event, meta = (AllowPrivateAcess = true))
+		TSubclassOf<class UUserWidget> textWidgetClass;
+	class UUserWidget* textWidgetObject;
+
+	FTimerHandle timerHandle;
+
+public:
+	void PopTextEvent(FText message, float seconds);
+	void PushTextEvent();
+
+	void EndTimerTextEvent();
 };
