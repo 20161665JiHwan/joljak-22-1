@@ -53,17 +53,6 @@ void AMODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FActorSpawnParameters param;
-	param.Owner = this;
-	param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	flash = GetWorld()->SpawnActor<AActor>(flashBP, GetMesh1P()->GetSocketTransform("GripPoint"), param);
-
-	if (IsValid(flash))
-	{
-		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
-		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
-	}
-
 	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	MagicsignWidgetObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), MagicsignWidgetClass);
@@ -229,6 +218,19 @@ void AMODCharacter::StopSprinting()
 				UE_LOG(LogTemp, Log, TEXT("canStaminaRestore = true"));
 				canStaminaRestore = true;
 			}), StaminaRestoreDelay, false);
+	}
+}
+
+void AMODCharacter::GetFlash()
+{
+	FActorSpawnParameters param;
+	param.Owner = this;
+	param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	flash = GetWorld()->SpawnActor<AActor>(flashBP, GetMesh1P()->GetSocketTransform("GripPoint"), param);
+	if (IsValid(flash))
+	{
+		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
+		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
 	}
 }
 

@@ -23,6 +23,7 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* Mesh1P;
 
+	bool isGetFlash = false;
 	AActor* flash;
 
 public:
@@ -31,6 +32,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+
+	UFUNCTION(BlueprintCallable)
+	void GetFlash();
 
 	// 카메라
 private:
