@@ -3,10 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/UserWidget.h"
-#include "MOD/TrapInfo.h"
 #include "PlayerCharacterController.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FTrapStart, APlayerCharacterController, StartTrapEvent, FTrapInfo, trapInfo);
 
 UCLASS()
 class MANSIONOFDARKNESS_API APlayerCharacterController : public APlayerController
@@ -17,15 +14,10 @@ public:
 	virtual void OnPossess(APawn* aPawn) override;
 
 public:
-	UPROPERTY(BlueprintReadOnly);
-	class UUserWidget* eventWidget = nullptr;
-
-public:
-	UFUNCTION(BlueprintCallable)
-		UUserWidget* ChangeEventWidget(TSubclassOf<UUserWidget> widgetClass);
-
-	UPROPERTY(BlueprintAssignable, Category = "Event")
-		FTrapStart StartTrapEvent;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> QTEWidgetClass;
+	UPROPERTY(BlueprintReadWrite)
+	class UUserWidget* QTEWidgetObject;
 
 public:
 	UFUNCTION(BlueprintCallable)

@@ -13,6 +13,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void OnComponentDestroyed(bool bDestroyingHierarchy) override;
+
+public:
 	virtual void Activate(bool bReset = false);
 	virtual void Deactivate();
 

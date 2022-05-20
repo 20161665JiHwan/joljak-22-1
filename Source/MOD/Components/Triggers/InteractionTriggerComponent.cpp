@@ -13,7 +13,12 @@ void UInteractionTriggerComponent::Activate(bool bReset)
 	UE_LOG(TriggerEvent, Log, TEXT("Interaction Activate!"));
 
 	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	binding = player->GetInputComponent()->BindAction("Interaction", IE_Pressed, this, &UInteractionTriggerComponent::ActiveTrigger);
+	if (player)
+	{
+		binding = player->GetInputComponent()->BindAction("Interaction", IE_Pressed, this, &UInteractionTriggerComponent::ActiveTrigger);
+
+		player->SetCanInteraction(true);
+	}
 }
 
 void UInteractionTriggerComponent::Deactivate()
@@ -21,7 +26,12 @@ void UInteractionTriggerComponent::Deactivate()
 	Super::Deactivate();
 
 	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	player->GetInputComponent()->RemoveActionBindingForHandle(binding.GetHandle());
+	if (player)
+	{
+		player->GetInputComponent()->RemoveActionBindingForHandle(binding.GetHandle());
+
+		player->SetCanInteraction(false);
+	}
 }
 
 void UInteractionTriggerComponent::ActiveTrigger()

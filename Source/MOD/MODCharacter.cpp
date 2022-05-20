@@ -53,17 +53,6 @@ void AMODCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FActorSpawnParameters param;
-	param.Owner = this;
-	param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	flash = GetWorld()->SpawnActor<AActor>(flashBP, GetMesh1P()->GetSocketTransform("GripPoint"), param);
-
-	if (IsValid(flash))
-	{
-		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
-		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
-	}
-
 	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	MagicsignWidgetObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), MagicsignWidgetClass);
@@ -76,6 +65,13 @@ void AMODCharacter::BeginPlay()
 	if (StaminaWidgetObject)
 	{
 		StaminaWidgetObject->AddToViewport();
+	}
+
+	progressWidgetObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), progressWidgetClass);
+	if (progressWidgetObject)
+	{
+		progressWidgetObject->AddToViewport();
+		progressWidgetObject->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
@@ -130,6 +126,9 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
 	PlayerInputComponent->BindAction("Stat", IE_Pressed, this, &AMODCharacter::OpenStatWindow);
+
+	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
+	PlayerInputComponent->BindAction("Interaction", IE_Released, this, &AMODCharacter::StopInteraction);
 }
 
 UInputComponent* AMODCharacter::GetInputComponent()
@@ -222,6 +221,19 @@ void AMODCharacter::StopSprinting()
 	}
 }
 
+void AMODCharacter::GetFlash()
+{
+	FActorSpawnParameters param;
+	param.Owner = this;
+	param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	flash = GetWorld()->SpawnActor<AActor>(flashBP, GetMesh1P()->GetSocketTransform("GripPoint"), param);
+	if (IsValid(flash))
+	{
+		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
+		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
+	}
+}
+
 UInventoryComponent* AMODCharacter::GetInventory()
 {
 	return Inventory;
@@ -294,4 +306,29 @@ void AMODCharacter::EndTimerTextEvent()
 
 		GetWorldTimerManager().ClearTimer(timerHandle);
 	}
+}
+
+void AMODCharacter::SetCanInteraction(bool value)
+{
+	if (progressWidgetObject)
+	{
+		if (value)
+		{
+			progressWidgetObject->SetVisibility(ESlateVisibility::Visible);
+		}
+		else
+		{
+			progressWidgetObject->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+}
+
+void AMODCharacter::Interaction()
+{
+	
+}
+
+void AMODCharacter::StopInteraction()
+{
+
 }

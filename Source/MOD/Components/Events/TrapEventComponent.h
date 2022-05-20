@@ -3,7 +3,6 @@
 #include "CoreMinimal.h"
 #include "EventComponent.h"
 #include "Blueprint/UserWidget.h"
-#include "MOD/TrapInfo.h"
 #include "TrapEventComponent.generated.h"
 
 UCLASS( Blueprintable, ClassGroup=(Event) )
@@ -18,8 +17,4 @@ public:
 private:
 	UPROPERTY(EditAnywhere, Category = Event, meta = (AllowPrivateAcess = true))
 		TSubclassOf<class UUserWidget> trapWindowWidgetClass;
-
-public :
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Event)
-		FTrapInfo trapInfo;
 };
