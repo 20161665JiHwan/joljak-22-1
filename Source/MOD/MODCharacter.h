@@ -24,11 +24,12 @@ private:
 		USkeletalMeshComponent* Mesh1P;
 
 	bool isGetFlash = false;
-	AActor* flash;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
 		TSubclassOf<class AActor> flashBP;
+	UPROPERTY(BlueprintReadOnly, Category = Flash)
+	AActor* flash;
 
 	UFUNCTION(BlueprintCallable)
 		USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
