@@ -332,3 +332,27 @@ void AMODCharacter::StopInteraction()
 {
 
 }
+
+void AMODCharacter::HideUMG()
+{
+	if (MagicsignWidgetObject)
+	{
+		MagicsignWidgetObject->SetVisibility(ESlateVisibility::Hidden);
+	}
+	if (StaminaWidgetObject)
+	{
+		StaminaWidgetObject->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void AMODCharacter::ShowUMG()
+{
+	if (MagicsignWidgetObject)
+	{
+		MagicsignWidgetObject->SetVisibility(ESlateVisibility::Visible);
+	}
+	if (StaminaWidgetObject)
+	{
+		StaminaWidgetObject->SetVisibility(ESlateVisibility::Visible);
+	}
+}

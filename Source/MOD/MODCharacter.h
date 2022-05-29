@@ -24,11 +24,12 @@ private:
 		USkeletalMeshComponent* Mesh1P;
 
 	bool isGetFlash = false;
-	AActor* flash;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
 		TSubclassOf<class AActor> flashBP;
+	UPROPERTY(BlueprintReadOnly, Category = Flash)
+	AActor* flash;
 
 	UFUNCTION(BlueprintCallable)
 		USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
@@ -124,9 +125,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> MagicsignWidgetClass;
+	UPROPERTY(BlueprintReadOnly)
 	class UUserWidget* MagicsignWidgetObject;
 
 	class UInventoryComponent* GetInventory();
+
+	UFUNCTION(BlueprintCallable)
+	void HideUMG();
+	UFUNCTION(BlueprintCallable)
+	void ShowUMG();
 
 	// 텍스트 이벤트
 private:
