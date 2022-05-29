@@ -23,14 +23,19 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* Mesh1P;
 
-	AActor* flash;
+	bool isGetFlash = false;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
 		TSubclassOf<class AActor> flashBP;
+	UPROPERTY(BlueprintReadOnly, Category = Flash)
+	AActor* flash;
 
 	UFUNCTION(BlueprintCallable)
-	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+		USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+
+	UFUNCTION(BlueprintCallable)
+	void GetFlash();
 
 	// 카메라
 private:
@@ -74,7 +79,7 @@ public:
 	bool isMove = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
-	float StaminaRestoreDelay;
+		float StaminaRestoreDelay;
 
 	UInputComponent* GetInputComponent();
 
@@ -120,9 +125,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> MagicsignWidgetClass;
+	UPROPERTY(BlueprintReadOnly)
 	class UUserWidget* MagicsignWidgetObject;
 
 	class UInventoryComponent* GetInventory();
+
+	UFUNCTION(BlueprintCallable)
+	void HideUMG();
+	UFUNCTION(BlueprintCallable)
+	void ShowUMG();
 
 	// 텍스트 이벤트
 private:
@@ -137,4 +148,18 @@ public:
 	void PushTextEvent();
 
 	void EndTimerTextEvent();
+
+	// 상호작용 트리거
+private:
+	UPROPERTY(EditAnywhere, Category = Trigger, meta = (AllowPrivateAcess = true))
+		TSubclassOf<class UUserWidget> progressWidgetClass;
+	class UUserWidget* progressWidgetObject;
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+		float progress = 0.0f;
+
+	void SetCanInteraction(bool value);
+	void Interaction();
+	void StopInteraction();
 };

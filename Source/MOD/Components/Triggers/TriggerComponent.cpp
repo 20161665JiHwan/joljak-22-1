@@ -19,6 +19,15 @@ void UTriggerComponent::BeginPlay()
 	Activate();
 }
 
+void UTriggerComponent::OnComponentDestroyed(bool bDestroyingHierarchy)
+{
+	Super::OnComponentDestroyed(bDestroyingHierarchy);
+
+	UE_LOG(TriggerEvent, Log, TEXT("%s Destroy!"), *(GetFName().ToString()));
+	Deactivate();
+	SetTrigger(false);
+}
+
 void UTriggerComponent::Activate(bool bReset)
 {
 	Super::Activate();
@@ -70,12 +79,23 @@ void UTriggerComponent::SetTrigger(bool setOn)
 		{
 			if (setOn)
 			{
+				UE_LOG(TriggerEvent, Log, TEXT("%s Active!"), *(sceneComp->GetFName().ToString()));
 				trigger->Activate();
 			}
 			else
 			{
+				UE_LOG(TriggerEvent, Log, TEXT("%s Deactive!"), *(sceneComp->GetFName().ToString()));
 				trigger->Deactivate();
 			}
 		}
 	}
+
+	/*
+	TArray<UActorComponent*> triggers;
+	GetOwner()->GetComponents(UTriggerComponent::StaticClass(), triggers);
+	for (UActorComponent* tmpTrigger : triggers)
+	{
+		tmpTrigger->DestroyComponent(true);
+	}
+	*/
 }
