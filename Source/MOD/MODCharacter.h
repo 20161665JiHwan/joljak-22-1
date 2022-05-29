@@ -125,9 +125,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> MagicsignWidgetClass;
+	UPROPERTY(BlueprintReadOnly)
 	class UUserWidget* MagicsignWidgetObject;
 
 	class UInventoryComponent* GetInventory();
+
+	UFUNCTION(BlueprintCallable)
+	void HideUMG();
+	UFUNCTION(BlueprintCallable)
+	void ShowUMG();
 
 	// 텍스트 이벤트
 private:
