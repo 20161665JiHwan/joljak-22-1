@@ -21,6 +21,9 @@ private:
 		USkeletalMeshComponent* Mesh1P;
 
 public:
+	UPROPERTY(BlueprintReadWrite, Category = Flash)
+		bool startWithFlash = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
 		TSubclassOf<class AActor> flashBP;
 	UPROPERTY(BlueprintReadOnly, Category = Flash)
