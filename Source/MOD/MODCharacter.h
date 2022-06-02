@@ -26,7 +26,7 @@ private:
 	bool isGetFlash = false;
 
 public:
-	UPROPERTY(BlueprintReadWrite, Category = Flash)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
 		bool startWithFlash = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)

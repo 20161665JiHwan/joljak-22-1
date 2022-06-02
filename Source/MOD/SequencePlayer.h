@@ -30,6 +30,9 @@ public:
 		AActor* flash;
 
 	UFUNCTION(BlueprintCallable)
+		void GetFlash();
+
+	UFUNCTION(BlueprintCallable)
 		USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 
 	// Ä«¸Þ¶ó
