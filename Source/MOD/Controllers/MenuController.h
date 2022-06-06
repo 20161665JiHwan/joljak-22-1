@@ -10,12 +10,23 @@ class MANSIONOFDARKNESS_API AMenuController : public APlayerController
 {
 	GENERATED_BODY()
 
-protected:
-	virtual void BeginPlay();
-
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> TitleWindowClass;
 	class UUserWidget* TitleWindowObject;
 
+	UFUNCTION(BlueprintCallable)
+		void OpenTitleWidget();
+	UFUNCTION(BlueprintCallable)
+		void CloseTitleWidget();
+
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> MainMenuWindowClass;
+	class UUserWidget* MainMenuWindowObject;
+
+	UFUNCTION(BlueprintCallable)
+		void OpenMainMenuWidget();
+	UFUNCTION(BlueprintCallable)
+		void CloseMainMenuWidget();
 };

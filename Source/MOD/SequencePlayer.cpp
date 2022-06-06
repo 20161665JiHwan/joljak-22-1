@@ -26,14 +26,9 @@ void ASequencePlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FActorSpawnParameters param;
-	param.Owner = this;
-	param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	flash = GetWorld()->SpawnActor<AActor>(flashBP, GetMesh1P()->GetSocketTransform("GripPoint"), param);
-	if (IsValid(flash))
+	if (startWithFlash)
 	{
-		FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
-		flash->AttachToComponent(Mesh1P, attach, "GripPoint");
+		GetFlash();
 	}
 }
 
@@ -44,5 +39,21 @@ void ASequencePlayer::Destroyed()
 	if (IsValid(flash))
 	{
 		flash->Destroy();
+	}
+}
+
+void ASequencePlayer::GetFlash()
+{
+	if (flash == nullptr)
+	{
+		FActorSpawnParameters param;
+		param.Owner = this;
+		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		flash = GetWorld()->SpawnActor<AActor>(flashBP, GetMesh1P()->GetSocketTransform("GripPoint"), param);
+		if (IsValid(flash))
+		{
+			FAttachmentTransformRules attach(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true);
+			flash->AttachToComponent(Mesh1P, attach, "GripPoint");
+		}
 	}
 }

@@ -21,10 +21,16 @@ private:
 		USkeletalMeshComponent* Mesh1P;
 
 public:
+	UPROPERTY(BlueprintReadWrite, Category = Flash)
+		bool startWithFlash = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
 		TSubclassOf<class AActor> flashBP;
 	UPROPERTY(BlueprintReadOnly, Category = Flash)
 		AActor* flash;
+
+	UFUNCTION(BlueprintCallable)
+		void GetFlash();
 
 	UFUNCTION(BlueprintCallable)
 		USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
