@@ -68,6 +68,8 @@ void APlayerCharacterController::PauseMenu()
 				character->EnableInput(this);
 			}
 		}
+
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
 	}
 	else
 	{
@@ -90,6 +92,8 @@ void APlayerCharacterController::PauseMenu()
 				character->DisableInput(this);
 			}
 		}
+
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
 	}
 }
 
