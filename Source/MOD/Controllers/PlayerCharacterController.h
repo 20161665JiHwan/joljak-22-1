@@ -13,11 +13,27 @@ class MANSIONOFDARKNESS_API APlayerCharacterController : public APlayerControlle
 public:
 	virtual void OnPossess(APawn* aPawn) override;
 
+	UFUNCTION(BlueprintCallable)
+		void PauseMenu();
+protected:
+	virtual void SetupInputComponent() override;
+
+private:
+	bool isPaused = false;
+
+	int inputMode;
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class UUserWidget> PauseWidgetClass;
+	UPROPERTY(BlueprintReadWrite)
+		class UUserWidget* PasueWidgetObject;
+
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class UUserWidget> QTEWidgetClass;
 	UPROPERTY(BlueprintReadWrite)
-	class UUserWidget* QTEWidgetObject;
+		class UUserWidget* QTEWidgetObject;
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -28,4 +44,8 @@ public:
 
 	UPROPERTY()
 		bool InventoryA = false;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Runtime Inspector")
+		int GetCurrentViewMode(const APlayerController* PlayerController);
 };

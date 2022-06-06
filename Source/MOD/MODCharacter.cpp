@@ -73,6 +73,11 @@ void AMODCharacter::BeginPlay()
 		progressWidgetObject->AddToViewport();
 		progressWidgetObject->SetVisibility(ESlateVisibility::Hidden);
 	}
+
+	if (startWithFlash)
+	{
+		GetFlash();
+	}
 }
 
 void AMODCharacter::Tick(float DeltaTime)

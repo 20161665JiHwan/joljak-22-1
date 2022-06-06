@@ -27,6 +27,9 @@ private:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
+		bool startWithFlash = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Flash)
 		TSubclassOf<class AActor> flashBP;
 	UPROPERTY(BlueprintReadOnly, Category = Flash)
 	AActor* flash;
