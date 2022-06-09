@@ -11,6 +11,8 @@ class AMODGameMode : public AGameModeBase
 
 public:
 	AMODGameMode();
+
+	void Save();
 };
 
 
