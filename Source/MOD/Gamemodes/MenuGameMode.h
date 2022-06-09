@@ -12,5 +12,9 @@ class MANSIONOFDARKNESS_API AMenuGameMode : public AGameModeBase
 public:
 	AMenuGameMode();
 
-	void Load();
+	UFUNCTION(BlueprintCallable)
+		void Load();
+
+	UPROPERTY(BlueprintReadOnly)
+		int clearedStage = 0;
 };
