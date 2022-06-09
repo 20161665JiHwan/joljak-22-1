@@ -1,6 +1,9 @@
 #include "MenuGameMode.h"
 
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+
+#include "MOD/MODSaveData.h"
 
 AMenuGameMode::AMenuGameMode()
 {
@@ -17,3 +20,17 @@ AMenuGameMode::AMenuGameMode()
 	}
 }
 
+void AMenuGameMode::Load()
+{
+	UMODSaveData* LoadGameInstance = Cast<UMODSaveData>(UGameplayStatics::CreateSaveGameObject(UMODSaveData::StaticClass()));
+
+	if (LoadGameInstance)
+	{
+		LoadGameInstance->SaveSlotName = "ClearedStage";
+		LoadGameInstance->SaveIndex = 0;
+
+		LoadGameInstance = Cast<UMODSaveData>(UGameplayStatics::LoadGameFromSlot(LoadGameInstance->SaveSlotName, LoadGameInstance->SaveIndex));
+
+		UE_LOG(LogTemp, Warning, TEXT("SaveStruct : %d"), LoadGameInstance->ClearedStage);
+	}
+}
