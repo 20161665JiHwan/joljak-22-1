@@ -21,7 +21,7 @@ AMODGameMode::AMODGameMode()
 	}
 }
 
-void AMODGameMode::Save(int stage)
+/*void AMODGameMode::Save(int stage)
 {
 	UMODSaveData* SaveGameInstance = Cast<UMODSaveData>(UGameplayStatics::CreateSaveGameObject(UMODSaveData::StaticClass()));
 
@@ -43,4 +43,4 @@ void AMODGameMode::Save(int stage)
 	{
 		UE_LOG(LogTemp, Error, TEXT("SaveGameInstance is nullptr"));
 	}
-}
+}*/
