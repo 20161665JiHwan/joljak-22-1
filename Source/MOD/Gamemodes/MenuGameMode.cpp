@@ -1,4 +1,5 @@
 #include "MenuGameMode.h"
+#include "MOD/MansionOfDarkness.h"
 
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
@@ -22,6 +23,8 @@ AMenuGameMode::AMenuGameMode()
 
 void AMenuGameMode::Load()
 {
+	UE_LOG(TriggerEvent, Log, TEXT("Load"));
+
 	UMODSaveData* LoadGameInstance = Cast<UMODSaveData>(UGameplayStatics::CreateSaveGameObject(UMODSaveData::StaticClass()));
 
 	if (LoadGameInstance)
@@ -31,6 +34,9 @@ void AMenuGameMode::Load()
 
 		LoadGameInstance = Cast<UMODSaveData>(UGameplayStatics::LoadGameFromSlot(LoadGameInstance->SaveSlotName, LoadGameInstance->SaveIndex));
 
-		UE_LOG(LogTemp, Warning, TEXT("SaveStruct : %d"), LoadGameInstance->ClearedStage);
+		if (LoadGameInstance)
+		{
+			clearedStage = LoadGameInstance->ClearedStage;
+		}
 	}
 }

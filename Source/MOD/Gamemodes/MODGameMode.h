@@ -12,7 +12,8 @@ class AMODGameMode : public AGameModeBase
 public:
 	AMODGameMode();
 
-	void Save();
+	UFUNCTION(BlueprintCallable)
+		void Save(int stage);
 };
 
 

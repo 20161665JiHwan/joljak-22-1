@@ -17,5 +17,7 @@ public:
 		int32 SaveIndex;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SaveData")
-		int ClearedStage;
+		int32 ClearedStage;
+
+	UMODSaveData();
 };
