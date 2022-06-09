@@ -1,4 +1,5 @@
 #include "MODGameMode.h"
+#include "MOD/MansionOfDarkness.h"
 
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
@@ -27,20 +28,11 @@ void AMODGameMode::Save(int stage)
 
 	if (SaveGameInstance)
 	{
-		SaveGameInstance->SaveSlotName = "ClearedStage";
-		SaveGameInstance->SaveIndex = 0;
-
-		SaveGameInstance = Cast<UMODSaveData>(UGameplayStatics::LoadGameFromSlot(SaveGameInstance->SaveSlotName, SaveGameInstance->SaveIndex));
-
 		if (SaveGameInstance->ClearedStage < stage)
 		{
 			SaveGameInstance->ClearedStage = stage;
 
 			UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->SaveIndex);
 		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("SaveGameInstance is nullptr"));
 	}
 }
