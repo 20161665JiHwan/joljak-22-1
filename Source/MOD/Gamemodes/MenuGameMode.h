@@ -11,4 +11,6 @@ class MANSIONOFDARKNESS_API AMenuGameMode : public AGameModeBase
 
 public:
 	AMenuGameMode();
+
+	void Load();
 };
