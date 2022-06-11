@@ -25,13 +25,13 @@ void UCollectionTriggerComponent::CheckCollection()
 {
 	AMODCharacter* player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
-	bool isActive = true;
+	bool isActive = isContain;
 
 	for (TSubclassOf<class UItem> item : items)
 	{
 		if (player->GetInventory()->GetCollectionItemFinded(item.GetDefaultObject()) == !isContain)
 		{
-			isActive = false;
+			isActive = !isContain;
 		}
 	}
 
