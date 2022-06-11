@@ -101,7 +101,7 @@ void AMODCharacter::Tick(float DeltaTime)
 	}
 
 	if (canSprint &&
-		GetMovementComponent()->Velocity > 0 &&
+		GetMovementComponent()->Velocity.Size() > 0 &&
 		isSprint)
 	{
 		StaminaCur -= StaminaConsume * DeltaTime;
