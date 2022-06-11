@@ -92,8 +92,6 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void TurnAtRate(float Rate);
-	void Move();
-	void StopMoving();
 
 	void PressSprint();
 	void ReleaseSprint();
