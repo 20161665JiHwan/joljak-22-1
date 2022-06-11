@@ -84,8 +84,24 @@ void AMODCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (GetMovementComponent()->Velocity.Size() > 0)
+	{
+		if (isSprint)
+		{
+			StartSprint();
+		}
+	}
+	else
+	{
+		if (isSprint)
+		{
+			StopSprinting();
+		}
+		canSprint = true;
+	}
+
 	if (canSprint &&
-		isMove &&
+		GetMovementComponent()->Velocity > 0 &&
 		isSprint)
 	{
 		StaminaCur -= StaminaConsume * DeltaTime;
@@ -118,9 +134,6 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMODCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMODCharacter::MoveRight);
-
-	PlayerInputComponent->BindAction("MoveAction", IE_Pressed, this, &AMODCharacter::Move);
-	PlayerInputComponent->BindAction("MoveAction", IE_Released, this, &AMODCharacter::StopMoving);
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("TurnRate", this, &AMODCharacter::TurnAtRate);
@@ -162,25 +175,6 @@ void AMODCharacter::MoveRight(float Value)
 	}
 }
 
-void AMODCharacter::Move()
-{
-	isMove = true;
-	if (isSprint)
-	{
-		StartSprint();
-	}
-}
-
-void AMODCharacter::StopMoving()
-{
-	isMove = false;
-	if (isSprint)
-	{
-		StopSprinting();
-	}
-	canSprint = true;
-}
-
 void AMODCharacter::PressSprint()
 {
 	isSprint = true;
@@ -193,7 +187,7 @@ void AMODCharacter::PressSprint()
 void AMODCharacter::ReleaseSprint()
 {
 	isSprint = false;
-	if (isMove)
+	if (GetMovementComponent()->Velocity.Size() > 0)
 	{
 		StopSprinting();
 	}
