@@ -79,7 +79,6 @@ public:
 	bool canSprint = true;
 	bool canStaminaRestore = true;
 	bool isSprint = false;
-	bool isMove = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Movement: Sprint")
 		float StaminaRestoreDelay;
