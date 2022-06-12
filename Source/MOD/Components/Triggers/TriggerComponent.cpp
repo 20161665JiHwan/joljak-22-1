@@ -5,6 +5,8 @@
 
 void UTriggerComponent::BeginPlay()
 {
+	Super::BeginPlay();
+
 	TArray<USceneComponent*> sceneComps;
 	GetParentComponents(sceneComps);
 

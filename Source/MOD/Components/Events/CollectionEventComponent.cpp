@@ -11,6 +11,8 @@
 
 void UCollectionEventComponent::BeginPlay()
 {
+	Super::BeginPlay();
+
 	if (!item)
 	{
 		return;

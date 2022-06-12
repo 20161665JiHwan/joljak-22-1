@@ -7,12 +7,6 @@
 
 #include "MOD/MODCharacter.h"
 
-void UOverlapTriggerComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-}
-
 void UOverlapTriggerComponent::Activate(bool bReset)
 {
 	Super::Activate();
