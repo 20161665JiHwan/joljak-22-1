@@ -9,9 +9,6 @@ class MANSIONOFDARKNESS_API UOverlapTriggerComponent : public UTriggerComponent
 {
 	GENERATED_BODY()
 
-protected:
-	virtual void BeginPlay() override;
-
 public:
 	virtual void Activate(bool bReset = false);
 	virtual void Deactivate();
