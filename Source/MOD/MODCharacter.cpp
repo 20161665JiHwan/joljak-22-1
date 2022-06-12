@@ -251,6 +251,7 @@ void AMODCharacter::OpenInventory()
 		InventoryWindowObject->AddToViewport();
 		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		controller->OpenWindow();
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
 	}
 }
 
