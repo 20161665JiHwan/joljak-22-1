@@ -32,6 +32,9 @@ public:
 		class UTexture2D* Thumbnail;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
+		class UTexture2D* ItemImage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 		FText ItemDisplayName;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (MultiLine = true))
