@@ -86,7 +86,8 @@ void AMODCharacter::Tick(float DeltaTime)
 
 	if (GetMovementComponent()->Velocity.Size() > 0)
 	{
-		if (isSprint)
+		if (isSprint &&
+			canSprint)
 		{
 			StartSprint();
 		}
@@ -324,7 +325,7 @@ void AMODCharacter::SetCanInteraction(bool value)
 
 void AMODCharacter::Interaction()
 {
-	
+
 }
 
 void AMODCharacter::StopInteraction()
