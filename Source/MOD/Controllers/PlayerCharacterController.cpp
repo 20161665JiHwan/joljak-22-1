@@ -15,7 +15,7 @@ void APlayerCharacterController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	InputComponent->BindAction("ESC", IE_Pressed, this, &APlayerCharacterController::PauseMenu);
+	InputComponent->BindAction("ESC", IE_Pressed, this, &APlayerCharacterController::PauseMenu).bExecuteWhenPaused = true;
 }
 
 void APlayerCharacterController::CloseWindow()
