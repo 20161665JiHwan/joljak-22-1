@@ -28,11 +28,19 @@ void AMODGameMode::Save(int stage)
 
 	if (SaveGameInstance)
 	{
-		if (SaveGameInstance->ClearedStage < stage)
-		{
-			SaveGameInstance->ClearedStage = stage;
+		SaveGameInstance->SaveSlotName = "ClearedStage";
+		SaveGameInstance->SaveIndex = 0;
 
-			UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->SaveIndex);
+		SaveGameInstance = Cast<UMODSaveData>(UGameplayStatics::LoadGameFromSlot(SaveGameInstance->SaveSlotName, SaveGameInstance->SaveIndex));
+
+		if (SaveGameInstance)
+		{
+			if (SaveGameInstance->ClearedStage < stage)
+			{
+				SaveGameInstance->ClearedStage = stage;
+
+				UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->SaveIndex);
+			}
 		}
 	}
 }
