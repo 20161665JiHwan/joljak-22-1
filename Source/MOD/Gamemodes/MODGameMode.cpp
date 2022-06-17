@@ -24,6 +24,8 @@ AMODGameMode::AMODGameMode()
 
 void AMODGameMode::Save(int stage)
 {
+	UE_LOG(TriggerEvent, Log, TEXT("Save"));
+
 	UMODSaveData* SaveGameInstance = Cast<UMODSaveData>(UGameplayStatics::CreateSaveGameObject(UMODSaveData::StaticClass()));
 
 	if (SaveGameInstance)
@@ -36,6 +38,20 @@ void AMODGameMode::Save(int stage)
 		if (SaveGameInstance)
 		{
 			if (SaveGameInstance->ClearedStage < stage)
+			{
+				SaveGameInstance->ClearedStage = stage;
+
+				UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveGameInstance->SaveSlotName, SaveGameInstance->SaveIndex);
+			}
+		}
+		else
+		{
+			SaveGameInstance = Cast<UMODSaveData>(UGameplayStatics::CreateSaveGameObject(UMODSaveData::StaticClass()));
+
+			SaveGameInstance->SaveSlotName = "ClearedStage";
+			SaveGameInstance->SaveIndex = 0;
+
+			if (SaveGameInstance)
 			{
 				SaveGameInstance->ClearedStage = stage;
 
