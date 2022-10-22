@@ -144,7 +144,6 @@ void AMODCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInput
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMODCharacter::ReleaseSprint);
 
 	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMODCharacter::OpenInventory);
-	PlayerInputComponent->BindAction("Stat", IE_Pressed, this, &AMODCharacter::OpenStatWindow);
 
 	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMODCharacter::Interaction);
 	PlayerInputComponent->BindAction("Interaction", IE_Released, this, &AMODCharacter::StopInteraction);
@@ -252,19 +251,6 @@ void AMODCharacter::OpenInventory()
 		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		controller->OpenWindow();
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
-	}
-}
-
-void AMODCharacter::OpenStatWindow()
-{
-	AMODCharacter* Player = Cast<AMODCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-
-	StatWindowObject = CreateWidget<UUserWidget>(UGameplayStatics::GetPlayerController(Player, 0), StatWindowClass);
-	if (StatWindowObject)
-	{
-		StatWindowObject->AddToViewport();
-		APlayerCharacterController* controller = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-		controller->OpenWindow();
 	}
 }
 

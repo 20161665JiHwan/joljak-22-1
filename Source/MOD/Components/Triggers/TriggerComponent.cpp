@@ -40,13 +40,16 @@ void UTriggerComponent::Deactivate()
 	Super::Deactivate();
 }
 
+// 트리거 컴포넌트 설정 함수
 void UTriggerComponent::SetTrigger(bool setOn)
 {
 	UE_LOG(TriggerEvent, Log, TEXT("%s is %s!"), *(GetFName().ToString()), (setOn ? TEXT("true") : TEXT("false")));
 
+	// 하위 컴포넌트 받아오기
 	TArray<USceneComponent*> sceneComps;
 	GetChildrenComponents(false, sceneComps);
 
+	// 이벤트 컴포넌트 분리
 	TArray<UEventComponent*> eventComps;
 	for (USceneComponent* sceneComp : sceneComps)
 	{
@@ -57,9 +60,11 @@ void UTriggerComponent::SetTrigger(bool setOn)
 		}
 	}
 
+	// 이벤트 정렬
 	TArray<UEventComponent*>& events = reinterpret_cast<TArray<UEventComponent*>&>(eventComps);
 	events.Sort([](const UEventComponent& a, const UEventComponent& b) {return a.priority < b.priority; });
 
+	// 이벤트 컴포넌트 실행
 	for (UEventComponent* eventComp : events)
 	{
 		if (setOn)
@@ -74,6 +79,7 @@ void UTriggerComponent::SetTrigger(bool setOn)
 		}
 	}
 
+	// 하위 트리거 컴포넌트 실행
 	for (USceneComponent* sceneComp : sceneComps)
 	{
 		UTriggerComponent* trigger = Cast<UTriggerComponent>(sceneComp);
@@ -91,13 +97,4 @@ void UTriggerComponent::SetTrigger(bool setOn)
 			}
 		}
 	}
-
-	/*
-	TArray<UActorComponent*> triggers;
-	GetOwner()->GetComponents(UTriggerComponent::StaticClass(), triggers);
-	for (UActorComponent* tmpTrigger : triggers)
-	{
-		tmpTrigger->DestroyComponent(true);
-	}
-	*/
 }

@@ -99,7 +99,6 @@ protected:
 	void StopSprinting();
 
 	void OpenInventory();
-	void OpenStatWindow();
 
 	// 스탯
 public:
@@ -108,10 +107,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		int MaxHealth;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TSubclassOf<class UUserWidget> StatWindowClass;
-	class UUserWidget* StatWindowObject;
 
 	// 인벤토리
 private:
